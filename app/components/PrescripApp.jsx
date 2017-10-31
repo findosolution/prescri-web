@@ -15,10 +15,10 @@ export class PrescripApp extends React.Component {
         <div className="page-action">
           <a href="#" onClick={this.onLogout}>Logout</a>
         </div>
-        <h1 className="page-title">Current orders</h1>
+        <h1 className="page-title">My current orders...</h1>
         <div className="row">
           <div className="column small-centered small-11 medium-8 large-8">
-            <div className="new-order">
+            <div className="page-route">
               <a onClick={redirectToNew}>place your order</a>
             </div>
             <div className="container">

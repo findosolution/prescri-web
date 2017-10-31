@@ -17,7 +17,7 @@ export class OrderList extends React.Component {
     };
     return(
       <div>
-        <table>
+        <table className="order-table">
           <tbody>
             {renderOrders()}
           </tbody>

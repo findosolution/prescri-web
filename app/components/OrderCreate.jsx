@@ -25,8 +25,11 @@ export class OrderCreate extends React.Component {
     dispatch(actions.startAddOrder(tempOrder));
     hashHistory.push('/orders');
   }
-  
+
   render() {
+    var redirectToOrders = () => {
+      hashHistory.push('/orders');
+    };
     return(
       <div>
         <div className="page-action">
@@ -35,48 +38,51 @@ export class OrderCreate extends React.Component {
         <h1 className="page-title">Place your order...</h1>
         <div className="row">
           <div className="column small-centered small-11 medium-8 large-8">
+            <div className="page-route">
+              <a onClick={redirectToOrders}>list my orders</a>
+            </div>
             <div className="container">
               <form ref="form" onSubmit={this.handleSubmit.bind(this)}>
-                  <div className="grid-x grid-padding-x">
-                    <div className="small-3 cell">
-                      <label className="text-right">Name :</label>
-                    </div>
-                    <div className="small-9 cell">
+                <div className="container_container">
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Name</label></div>
+                    <div className="medium-10 columns">
                       <input type="text" ref="name" placeholder="Patient name"/>
                     </div>
                   </div>
-                  <div className="grid-x grid-padding-x">
-                    <div className="small-3 cell">
-                      <label className="text-right">Location :</label>
-                    </div>
-                    <div className="small-9 cell">
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Location</label></div>
+                    <div className="medium-10 columns">
                       <input type="text" ref="location" placeholder="Phamarcy location"/>
                     </div>
                   </div>
-                  <div className="grid-x grid-padding-x">
-                    <div className="small-3 cell">
-                      <label className="text-right">Phamarcy :</label>
-                    </div>
-                    <div className="small-9 cell">
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Phamarcy</label></div>
+                    <div className="medium-8 columns">
                       <input type="text" ref="pharmacy" placeholder="Phamarcy name"/>
                     </div>
-                  </div>
-                  <div className="grid-x grid-padding-x">
-                    <div className="small-3 cell">
-                      <label className="text-right">Prescription :</label>
-                    </div>
-                    <div className="small-9 cell">
-                      <input type="text" ref="prescription" placeholder="Patient name"/>
+                    <div className="medium-2 columns inner-route">
+                      <a>view in map</a>
                     </div>
                   </div>
-                  <div>
-                    <button type="submit" className="button Primary">place my order</button>
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Prescription</label></div>
+                    <div className="medium-10 columns">
+                      <input type="text" ref="prescription" placeholder="prescription"/>
+                    </div>
                   </div>
+                  <div className="row">
+                    <div className="medium-2 columns"></div>
+                    <div className="medium-10 columns">
+                      <button type="submit" className="button Primary expanded">Place my order</button>
+                    </div>
+                  </div>
+                </div>
               </form>
-            </div>
-          </div>
-        </div>
-      </div>
+             </div>
+           </div>
+         </div>
+       </div>
     );
   }
 }
