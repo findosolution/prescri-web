@@ -31,19 +31,17 @@ export class Login extends React.Component {
       };
 
       dispatch(actions.startLogin(userObj));
-
     } else {
        this.refs.todo.focus();
     }
-
-    //hashHistory.push('/orders');
   }
-  onGoogleLogin() {
+  onGoogleLogin(provider) {
+    console.log(provider);
     var {dispatch} = this.props;
     var userObj = {
       userId : null,
       userPw : null,
-      method : 'GOOGLE'
+      method : provider
     };
     dispatch(actions.startLogin(userObj));
   }
@@ -88,7 +86,7 @@ export class Login extends React.Component {
                       </button>
                     </div>
                     <div className="medium-1 columns">
-                      <button type="button" className="img-button" onClick={this.onGoogleLogin}>
+                      <button type="button" className="img-button" onClick={() => this.onGoogleLogin('GOOGLE')}>
                         <img src="images/google-plus.svg"/>
                       </button>
                     </div>

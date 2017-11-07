@@ -5,6 +5,16 @@ import {hashHistory} from 'react-router';
 import * as actions from 'actions';
 
 export class OrderCreate extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onLogout = this.onLogout.bind(this);
+  }
+  onLogout(e) {
+    e.preventDefault();
+    var {dispatch} = this.props;
+
+    dispatch(actions.startLogout());
+  }
   handleSubmit() {
     var {dispatch} = this.props;
     //validations
