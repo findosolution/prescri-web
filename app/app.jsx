@@ -12,6 +12,7 @@ var store = require('configStore').configure();
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
+    console.log(user);
     store.dispatch(actions.login(user.uid));
     store.dispatch(actions.startLoadOrders());
     hashHistory.push('/orders');

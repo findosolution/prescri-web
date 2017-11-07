@@ -77,14 +77,30 @@ export var login = (uid) => {
   };
 };
 
-export var startLogin = () => {
+export var startLogin = (userObj) => {
   return (dispatch, getState) => {
-    return firebase.auth().signInWithPopup(googleProvider).then((result) => {
-      //dispatch(login(result.user.uid));
-      console.log('Auth worked', result);
-    }, (error) => {
-      console.log('Auth failed', error);
-    });
+
+    switch (userObj.method) {
+      case 'USRPW':
+        return firebase.auth().signInWithEmailAndPassword(userObj.userId, userObj.userPw).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            console.log(errorMessage, errorCode);
+            // ...
+        });
+
+      case 'GOOGLE':
+        return firebase.auth().signInWithPopup(googleProvider).then((result) => {
+          //dispatch(login(result.user.uid));
+          console.log('Auth worked', result);
+        }, (error) => {
+          console.log('Auth failed', error);
+        });
+      default:
+        return userObj
+    }
   };
 };
 

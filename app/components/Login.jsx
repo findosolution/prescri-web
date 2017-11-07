@@ -10,14 +10,42 @@ export class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
   }
-  handleSubmit() {
+  handleSubmit(e) {
     var {dispatch} = this.props;
     //dispatch(actions.startAddOrder(tempOrder));
-    hashHistory.push('/orders');
+    var userId = this.refs.userid.value;
+    var userPw = this.refs.password.value;
+
+    if(userId.length > 0 && userPw.length > 0 ) {
+
+      console.log("userId ", userId);
+      console.log("userPw ", userPw);
+
+      this.refs.userid.value = "";
+      this.refs.password.value="";
+
+      var userObj = {
+        userId : userId,
+        userPw : userPw,
+        method : 'USRPW'
+      };
+
+      dispatch(actions.startLogin(userObj));
+
+    } else {
+       this.refs.todo.focus();
+    }
+
+    //hashHistory.push('/orders');
   }
   onGoogleLogin() {
     var {dispatch} = this.props;
-    dispatch(actions.startLogin());
+    var userObj = {
+      userId : null,
+      userPw : null,
+      method : 'GOOGLE'
+    };
+    dispatch(actions.startLogin(userObj));
   }
   render() {
     return(
