@@ -1,3 +1,5 @@
+import {firebase, googleProvider} from 'myFirebase';
+
 export var loadOrders = (orders) => {
   return {
     type: 'LOAD_ORDERS',
@@ -67,3 +69,22 @@ export var toggleShowCompleted = () => {
     type: 'TOGGLE_SHOW_COMPLETED'
   };
 };
+
+export var login = (uid) => {
+  return {
+    type: 'LOGIN',
+    uid
+  };
+};
+
+export var startLogin = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signInWithPopup(googleProvider).then((result) => {
+      dispatch(login(result.user.uid));
+      console.log('Auth worked', result);
+    }, (error) => {
+      console.log('Auth failed', error);
+    });
+
+  };
+}

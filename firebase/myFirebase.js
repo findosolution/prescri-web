@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+var firebase = require('firebase');
 
 try {
   var config = {
@@ -15,5 +15,8 @@ try {
 
 }
 
-export var firebaseRef = firebase.database().ref();
-export default firebase;
+module.exports = {
+  googleProvider: new firebase.auth.GoogleAuthProvider(),
+  firebaseRef: firebase.database().ref(),
+  firebase: firebase
+};
