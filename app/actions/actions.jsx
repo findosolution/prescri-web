@@ -80,11 +80,25 @@ export var login = (uid) => {
 export var startLogin = () => {
   return (dispatch, getState) => {
     return firebase.auth().signInWithPopup(googleProvider).then((result) => {
-      dispatch(login(result.user.uid));
+      //dispatch(login(result.user.uid));
       console.log('Auth worked', result);
     }, (error) => {
       console.log('Auth failed', error);
     });
-
   };
-}
+};
+
+export var logout = () => {
+  return {
+    type: 'LOGOUT'
+  };
+};
+
+export var startLogout = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signOut().then(() => {
+      dispatch(logout());
+      console.log('Logout success');
+    });
+  };
+};

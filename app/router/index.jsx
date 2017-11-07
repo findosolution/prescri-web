@@ -8,13 +8,17 @@ import OrderCreate from 'OrderCreate';
 import Login from 'Login';
 
 var requireLogin = (nextState, replace, next) => {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      replace('/orders');
-    } else {
-      replace('/');
-    }
-  });
+  if(!firebase.auth().currentUser) {
+    replace('/');
+  }
+
+  next();
+};
+
+var redirectIfLogedIn = (nextState, replace, next) => {
+  if(firebase.auth().currentUser) {
+    replace('/orders');
+  }
 
   next();
 };
@@ -24,7 +28,7 @@ export default (
     <Route path="/">
       <Route path="/orders" component={PrescripApp} onEnter={requireLogin}/>
       <Route path="/new" component={OrderCreate} onEnter={requireLogin}/>
-      <IndexRoute component={Login} onEnter={requireLogin}/>
+      <IndexRoute component={Login} onEnter={redirectIfLogedIn}/>
     </Route>
   </Router>
 );

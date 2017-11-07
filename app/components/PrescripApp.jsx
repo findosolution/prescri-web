@@ -2,10 +2,22 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 
+import * as actions from 'actions';
+
 import OrderSearch from 'OrderSearch';
 import OrderList from 'OrderList';
 
 export class PrescripApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onLogout = this.onLogout.bind(this);
+  }
+  onLogout(e) {
+    e.preventDefault();
+    var {dispatch} = this.props;
+
+    dispatch(actions.startLogout());
+  }
   render() {
     var redirectToNew = () => {
       hashHistory.push('/new');
