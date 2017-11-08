@@ -5,46 +5,86 @@ import {hashHistory} from 'react-router';
 import * as actions from 'actions';
 
 export class Login extends React.Component {
+
   constructor(props) {
     super(props);
+    this.abide;
+    this.form;
+    this.state = { submitDisabled: false };
+    this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
   }
+
+  componentDidMount() {
+
+    this.abide = new Foundation.Abide($('#login-form'), { liveValidate: false });
+    this.form = $('#login-form');
+
+    this.form.on('invalid.zf.abide', () => {
+      console.log('invalid');
+      this.disableSubmit();
+    });
+    this.form.on('valid.zf.abide', () => {
+      console.log('valid');
+      console.log(this.abide);
+      if ($('.is-invalid-input', this.form).length == 0) this.enableSubmit();
+
+    });
+  }
+  componenWillUnmount() {
+      this.abide.destory();
+  }
+  onChange(e) {
+    var state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+
+  }
+
+  enableSubmit() {
+    this.setState({ submitDisabled: false });
+  }
+
+  disableSubmit() {
+    this.setState({ submitDisabled: true });
+  }
+
   handleSubmit(e) {
+
     var {dispatch} = this.props;
-    //dispatch(actions.startAddOrder(tempOrder));
+
     var userId = this.refs.userid.value;
     var userPw = this.refs.password.value;
 
     if(userId.length > 0 && userPw.length > 0 ) {
 
-      console.log("userId ", userId);
-      console.log("userPw ", userPw);
-
-      this.refs.userid.value = "";
-      this.refs.password.value="";
+      //this.refs.userid.value = "";
+      //this.refs.password.value="";
 
       var userObj = {
         userId : userId,
         userPw : userPw,
         method : 'USRPW'
       };
-
       dispatch(actions.startLogin(userObj));
-    } else {
-       this.refs.todo.focus();
+
     }
   }
+
   onGoogleLogin(provider) {
-    console.log(provider);
+
     var {dispatch} = this.props;
+
     var userObj = {
       userId : null,
       userPw : null,
       method : provider
     };
+
     dispatch(actions.startLogin(userObj));
   }
+
   render() {
     return(
       <div>
@@ -52,21 +92,22 @@ export class Login extends React.Component {
         <div className="row">
           <div className="column small-centered small-10 medium-6 large-5">
             <div className="container">
-              <form ref="form" onSubmit={this.handleSubmit}>
+              <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
                 <div className="container_container">
                   <div className="row">
                     <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number"/>
+                      <input type="text" ref="userid" placeholder="Email or Mobile number" required/>
+                      <span className="form-error">Email or Mobile number</span>
                     </div>
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <input type="text" ref="password" placeholder="Password"/>
+                      <input type="password" ref="password" placeholder="Password"/>
                     </div>
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <button type="submit" className="button Primary expanded">Sign in</button>
+                      <button type="submit" disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
                     </div>
                   </div>
                   <div className="row">

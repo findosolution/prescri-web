@@ -110,6 +110,19 @@ export var logout = () => {
   };
 };
 
+export var startSignUp = () => {
+  return (dispatch, getState) => {
+
+    firebase.auth().createUserWithEmailAndPassword('findosolution@gmail.com', '1qaz2wsx@').catch(function(error) {
+    // Handle Errors here.
+    //  var errorCode = error.code;
+    //  var errorMessage = error.message;
+    // ...
+    });
+    console.log('user have been created');
+  }
+}
+
 export var startLogout = () => {
   return (dispatch, getState) => {
     return firebase.auth().signOut().then(() => {
