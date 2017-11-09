@@ -51,7 +51,7 @@ export class Login extends React.Component {
   }
 
   handleSubmit(e) {
-
+    e.preventDefault();
     var {dispatch} = this.props;
 
     var userId = this.refs.userid.value;
@@ -69,6 +69,8 @@ export class Login extends React.Component {
       };
       dispatch(actions.startLogin(userObj));
 
+    } else {
+      console.log('Some thing go wrong');
     }
   }
 
@@ -107,7 +109,7 @@ export class Login extends React.Component {
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <button type="submit" disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
+                      <button disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
                     </div>
                   </div>
                   <div className="row">
