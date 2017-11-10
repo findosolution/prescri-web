@@ -48,3 +48,12 @@ export var authReducer = (state = {}, action) => {
       return state;
   };
 };
+
+export var restReducer = (state ={} , action) => {
+  switch (action.type) {
+    case 'RESETPASSWORD':
+      return action.resetProps;
+    default:
+      return state;
+  };
+};

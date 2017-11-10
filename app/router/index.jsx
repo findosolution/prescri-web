@@ -5,6 +5,7 @@ import {firebase} from 'myFirebase';
 
 import PrescripApp from 'PrescripApp';
 import OrderCreate from 'OrderCreate';
+import ResetPassword from 'ResetPassword';
 import Login from 'Login';
 
 var requireLogin = (nextState, replace, next) => {
@@ -28,6 +29,7 @@ export default (
     <Route path="/">
       <Route path="/orders" component={PrescripApp} onEnter={requireLogin}/>
       <Route path="/new" component={OrderCreate} onEnter={requireLogin}/>
+      <Route path="/reset-password" component={ResetPassword}/>
       <IndexRoute component={Login} onEnter={redirectIfLogedIn}/>
     </Route>
   </Router>

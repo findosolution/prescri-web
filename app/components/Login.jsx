@@ -14,6 +14,7 @@ export class Login extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.handleForgotPassword =this.handleForgotPassword.bind(this);
   }
 
   componentDidMount() {
@@ -22,14 +23,10 @@ export class Login extends React.Component {
     this.form = $('#login-form');
 
     this.form.on('invalid.zf.abide', () => {
-      console.log('invalid');
       this.disableSubmit();
     });
     this.form.on('valid.zf.abide', () => {
-      console.log('valid');
-      console.log(this.abide);
       if ($('.is-invalid-input', this.form).length == 0) this.enableSubmit();
-
     });
   }
   componenWillUnmount() {
@@ -57,11 +54,7 @@ export class Login extends React.Component {
     var userId = this.refs.userid.value;
     var userPw = this.refs.password.value;
 
-    if(userId.length > 0 && userPw.length > 0 ) {
-
-      //this.refs.userid.value = "";
-      //this.refs.password.value="";
-
+    if(userId.length > 0 && userPw.length > 0 ){
       var userObj = {
         userId : userId,
         userPw : userPw,
@@ -72,6 +65,12 @@ export class Login extends React.Component {
     } else {
       console.log('Some thing go wrong');
     }
+  }
+
+  handleForgotPassword (e) {
+    e.preventDefault();
+    console.log('handleForgotPassword');
+    hashHistory.push('/reset-password');
   }
 
   onGoogleLogin(provider) {
@@ -110,6 +109,11 @@ export class Login extends React.Component {
                   <div className="row">
                     <div className="medium-12 columns">
                       <button disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
+                  </div>
+                  </div>
+                  <div className="row">
+                    <div className="medium-12 columns centered">
+                      <a href="#" onClick={this.handleForgotPassword}>Forgot password</a>
                     </div>
                   </div>
                   <div className="row">
