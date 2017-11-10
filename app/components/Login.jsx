@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
-
+import {number, email,numberOremail} from 'ValidationHelper';
 import * as actions from 'actions';
 
 export class Login extends React.Component {
@@ -13,13 +13,18 @@ export class Login extends React.Component {
     this.state = { submitDisabled: false };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onGoogleLogin = this.onGoogleLogin.bind(this);
     this.handleForgotPassword =this.handleForgotPassword.bind(this);
+
+    this.onGoogleLogin = this.onGoogleLogin.bind(this);
   }
 
   componentDidMount() {
 
-    this.abide = new Foundation.Abide($('#login-form'), { liveValidate: false });
+    this.abide = new Foundation.Abide($('#login-form'), { liveValidate: false,
+    patterns : {
+      numberOremail : numberOremail
+
+    }});
     this.form = $('#login-form');
 
     this.form.on('invalid.zf.abide', () => {
@@ -53,13 +58,23 @@ export class Login extends React.Component {
 
     var userId = this.refs.userid.value;
     var userPw = this.refs.password.value;
+    var userObj = {};
 
     if(userId.length > 0 && userPw.length > 0 ){
-      var userObj = {
-        userId : userId,
-        userPw : userPw,
-        method : 'USRPW'
-      };
+
+      if(email.test(userId)) {
+        userObj = {
+          userId : userId,
+          userPw : userPw,
+          method : 'USRPW'
+        };
+      } else if (number.test(userId)) {
+        userObj = {
+          userId : userId,
+          userPw : userPw,
+          method : 'MOBILE'
+        };
+      }
       dispatch(actions.startLogin(userObj));
 
     } else {
@@ -97,7 +112,7 @@ export class Login extends React.Component {
                 <div className="container_container">
                   <div className="row">
                     <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number" required/>
+                      <input type="text" ref="userid" placeholder="Email or Mobile number" required pattern="numberOremail"/>
                       <span className="form-error">Email or Mobile number</span>
                     </div>
                   </div>
