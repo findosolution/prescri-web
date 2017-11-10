@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
-
+import {number, email,numberOremail} from 'ValidationHelper';
 import * as actions from 'actions';
 
 export class Login extends React.Component {
@@ -13,23 +13,25 @@ export class Login extends React.Component {
     this.state = { submitDisabled: false };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleForgotPassword =this.handleForgotPassword.bind(this);
+
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
   }
 
   componentDidMount() {
 
-    this.abide = new Foundation.Abide($('#login-form'), { liveValidate: false });
+    this.abide = new Foundation.Abide($('#login-form'), { liveValidate: false,
+    patterns : {
+      numberOremail : numberOremail
+
+    }});
     this.form = $('#login-form');
 
     this.form.on('invalid.zf.abide', () => {
-      console.log('invalid');
       this.disableSubmit();
     });
     this.form.on('valid.zf.abide', () => {
-      console.log('valid');
-      console.log(this.abide);
       if ($('.is-invalid-input', this.form).length == 0) this.enableSubmit();
-
     });
   }
   componenWillUnmount() {
@@ -56,22 +58,34 @@ export class Login extends React.Component {
 
     var userId = this.refs.userid.value;
     var userPw = this.refs.password.value;
+    var userObj = {};
 
-    if(userId.length > 0 && userPw.length > 0 ) {
+    if(userId.length > 0 && userPw.length > 0 ){
 
-      //this.refs.userid.value = "";
-      //this.refs.password.value="";
-
-      var userObj = {
-        userId : userId,
-        userPw : userPw,
-        method : 'USRPW'
-      };
+      if(email.test(userId)) {
+        userObj = {
+          userId : userId,
+          userPw : userPw,
+          method : 'USRPW'
+        };
+      } else if (number.test(userId)) {
+        userObj = {
+          userId : userId,
+          userPw : userPw,
+          method : 'MOBILE'
+        };
+      }
       dispatch(actions.startLogin(userObj));
 
     } else {
       console.log('Some thing go wrong');
     }
+  }
+
+  handleForgotPassword (e) {
+    e.preventDefault();
+    console.log('handleForgotPassword');
+    hashHistory.push('/reset-password');
   }
 
   onGoogleLogin(provider) {
@@ -98,7 +112,7 @@ export class Login extends React.Component {
                 <div className="container_container">
                   <div className="row">
                     <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number" required/>
+                      <input type="text" ref="userid" placeholder="Email or Mobile number" required pattern="numberOremail"/>
                       <span className="form-error">Email or Mobile number</span>
                     </div>
                   </div>
@@ -110,6 +124,11 @@ export class Login extends React.Component {
                   <div className="row">
                     <div className="medium-12 columns">
                       <button disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
+                  </div>
+                  </div>
+                  <div className="row">
+                    <div className="medium-12 columns centered">
+                      <a href="#" onClick={this.handleForgotPassword}>Forgot password</a>
                     </div>
                   </div>
                   <div className="row">

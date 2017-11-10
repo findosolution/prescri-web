@@ -116,6 +116,43 @@ export var logout = () => {
   };
 };
 
+export var passwordReset = (resetProps) =>{
+  return {
+    type: 'RESETPASSWORD',
+    resetProps
+  };
+};
+
+export var startPwReset = (emailMobile) => {
+
+  return (dispatch, getState) => {
+    var resetProps = {};
+    var isEmailSent = false;
+    return firebase.auth().sendPasswordResetEmail(emailMobile).then(function() {
+      // Email sent.
+      console.log('email was sent');
+      isEmailSent = true;
+
+      resetProps = {
+        status : isEmailSent,
+        email : emailMobile
+      }
+      dispatch(passwordReset(resetProps));
+
+    }).catch(function(error) {
+      // An error happened.
+      console.log('An error happened',error);
+      resetProps = {
+        status : isEmailSent,
+        email : emailMobile
+      }
+
+      dispatch(passwordReset(resetProps));
+    });
+  }
+
+};
+
 export var startSignUp = () => {
   return (dispatch, getState) => {
 

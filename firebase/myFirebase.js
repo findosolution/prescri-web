@@ -11,6 +11,7 @@ try {
   };
 
   firebase.initializeApp(config);
+  firebase.auth().useDeviceLanguage();
 } catch (e) {
 
 }
