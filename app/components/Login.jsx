@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import {number, email,numberOremail} from 'ValidationHelper';
 import * as actions from 'actions';
+import {firebase} from 'myFirebase';
 
 export class Login extends React.Component {
 
@@ -10,7 +11,7 @@ export class Login extends React.Component {
     super(props);
     this.abide;
     this.form;
-    this.state = { submitDisabled: false };
+    this.state = { submitDisabled: false, isShown: false };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleForgotPassword =this.handleForgotPassword.bind(this);
@@ -52,6 +53,21 @@ export class Login extends React.Component {
     this.setState({ submitDisabled: true });
   }
 
+  handleVerify() {
+    var code = this.refs.code.value;
+    console.log(code);
+    window.confirmationResult.confirm(code).then(function (result) {
+  // User signed in successfully.
+      var user = result.user;
+      console.log(user);
+      // ...
+    }).catch(function (error) {
+      // User couldn't sign in (bad verification code?)
+      // ...
+      console.log(error);
+    });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     var {dispatch} = this.props;
@@ -66,14 +82,25 @@ export class Login extends React.Component {
         userObj = {
           userId : userId,
           userPw : userPw,
-          method : 'USRPW'
+          method : 'USRPW',
+          recaptchaVerifier : null
         };
       } else if (number.test(userId)) {
+
+        window.recaptchaVerifier = new  firebase.auth.RecaptchaVerifier('sign-in-button', {
+          'size': 'invisible',
+          'callback': function(response) {
+            hashHistory.push('/confirm-code');
+          }
+        });
+
         userObj = {
-          userId : userId,
-          userPw : userPw,
-          method : 'MOBILE'
+          userId : '+94772325524',
+          userPw : null,
+          method : 'MOBILE',
+          recaptchaVerifier: window.recaptchaVerifier
         };
+
       }
       dispatch(actions.startLogin(userObj));
 
@@ -123,7 +150,7 @@ export class Login extends React.Component {
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <button disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
+                      <button disabled={this.state.submitDisabled} id='sign-in-button' className="button Primary expanded">Sign in</button>
                   </div>
                   </div>
                   <div className="row">

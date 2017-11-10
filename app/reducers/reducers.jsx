@@ -49,10 +49,15 @@ export var authReducer = (state = {}, action) => {
   };
 };
 
-export var restReducer = (state ={} , action) => {
+export var unAuthReducer = (state ={} , action) => {
   switch (action.type) {
     case 'RESETPASSWORD':
       return action.resetProps;
+
+    case 'CONFIRMLOGIN':
+      return {
+        'confirmationResult' : action.confirmationResult
+      };
     default:
       return state;
   };
