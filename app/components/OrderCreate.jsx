@@ -15,7 +15,8 @@ export class OrderCreate extends React.Component {
 
     dispatch(actions.startLogout());
   }
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     var {dispatch} = this.props;
     //validations
     var tempOrder = {
@@ -27,11 +28,7 @@ export class OrderCreate extends React.Component {
       status: 1,
       createdAt: 2323232,
       completedAt: null
-    }
-    console.log('tmpOrder', tempOrder);
-    /*dispatch(actions.startAddOrder(tempOrder).then(() => {
-        hashHistory.push('/orders');
-      }));*/
+    };
     dispatch(actions.startAddOrder(tempOrder));
     hashHistory.push('/orders');
   }

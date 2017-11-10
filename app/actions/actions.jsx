@@ -1,4 +1,5 @@
 import {firebase, googleProvider} from 'myFirebase';
+import OrderAPI from 'OrderAPI';
 
 export var loadOrders = (orders) => {
   return {
@@ -53,7 +54,12 @@ export var addOrder = (order) => {
 
 export var startAddOrder = (order) => {
   return (dispatch, getState) => {
-    dispatch(addOrder(order));
+    return OrderAPI.addOrder(order).then((snapshot) => {
+      dispatch(addOrder(order));
+    }, (err) => {
+      console.log(err);
+    });
+
   };
 };
 

@@ -1,6 +1,7 @@
 var express = require('express');
 
 var authService = require('./services/authService');
+var orderService = require('./services/orderService');
 
 var router = express.Router();
 
@@ -18,5 +19,11 @@ router.get('/', function(req, res) {
 
 router.route('/auth').post(authService.authenticate)
     .get(authService.authenticate);
+
+router.route('/orders').post(orderService.addOrder)
+    .get(orderService.getOrders);
+router.route('/orders/:orderId').get(orderService.addOrder)
+    .put(orderService.addOrder)
+    .delete(orderService.addOrder);
 
 module.exports = router;
