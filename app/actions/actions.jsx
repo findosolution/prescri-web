@@ -1,5 +1,6 @@
 import {firebase, googleProvider} from 'myFirebase';
 import OrderAPI from 'OrderAPI';
+import UserAPI from 'UserAPI';
 
 export var loadOrders = (orders) => {
   return {
@@ -10,38 +11,11 @@ export var loadOrders = (orders) => {
 
 export var startLoadOrders = () => {
   return (dispatch, getState) => {
-    var orders = [
-      {
-        id: 'PRE0001',
-        orderby: 'supun',
-        location: 'malabe',
-        pharmacy: 'lanka pharmacy - Malabe',
-        status: 1,
-        prescription: 'sdadadsadadd',
-        createdAt: 2323232,
-        completedAt: null
-      },{
-        id: 'PRE0002',
-        orderby: 'supun',
-        location: 'malabe',
-        pharmacy: 'healthgard - Nawala',
-        status: 1,
-        prescription: 'sdadadsadadd',
-        createdAt: 2323232,
-        completedAt: null
-      },{
-        id: 'PRE0003',
-        orderby: 'supun',
-        location: 'malabe',
-        pharmacy: 'healthgard - Nugegoda',
-        status: 5,
-        prescription: 'sdadadsadadd',
-        createdAt: 2323232,
-        completedAt: null
-      }
-    ];
-
-    dispatch(loadOrders(orders));
+    return OrderAPI.getOrders(getState().user.uid).then((snapshot) => {
+      dispatch(loadOrders(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
   };
 };
 
@@ -54,8 +28,12 @@ export var addOrder = (order) => {
 
 export var startAddOrder = (order) => {
   return (dispatch, getState) => {
+    order = {
+      ...order,
+      orderby: getState().user.uid
+    };
     return OrderAPI.addOrder(order).then((snapshot) => {
-      dispatch(addOrder(order));
+      dispatch(addOrder(snapshot));
     }, (err) => {
       console.log(err);
     });
@@ -99,8 +77,16 @@ export var startLogin = (userObj) => {
 
       case 'GOOGLE':
         return firebase.auth().signInWithPopup(googleProvider).then((result) => {
-          //dispatch(login(result.user.uid));
-          console.log('Auth worked', result);
+          var user = {
+            uid: result.user.uid,
+            name: result.user.displayName,
+            email: result.user.email
+          };
+          return UserAPI.registerIfNot(user).then((snapshot) => {
+            //dispatch(addOrder(snapshot));
+          }, (err) => {
+            console.log(err);
+          });
         }, (error) => {
           console.log('Auth failed', error);
         });

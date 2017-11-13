@@ -23,11 +23,7 @@ export class OrderCreate extends React.Component {
       name: this.refs.name.value,
       pharmacy: this.refs.pharmacy.value,
       prescription: this.refs.prescription.value,
-      id: 'PRE0005',
-      orderby: 'supun',
-      status: 1,
-      createdAt: 2323232,
-      completedAt: null
+      receivedby: "geQRvcpzzbYzLr36U238K7FvqH03"
     };
     dispatch(actions.startAddOrder(tempOrder));
     hashHistory.push('/orders');

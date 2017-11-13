@@ -6,7 +6,6 @@ export var orderReducer = (state = [], action) => {
         ...action.orders
       ];
     case 'ADD_ORDER':
-      console.log('orders', action.order);
       return[
         ...state,
         {

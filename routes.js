@@ -1,6 +1,6 @@
 var express = require('express');
 
-var authService = require('./services/authService');
+var userService = require('./services/userService');
 var orderService = require('./services/orderService');
 
 var router = express.Router();
@@ -17,13 +17,14 @@ router.get('/', function(req, res) {
     res.json({ message: 'Prescription api' });
 });
 
-router.route('/auth').post(authService.authenticate)
-    .get(authService.authenticate);
+router.route('/orders').post(orderService.addOrder);
 
-router.route('/orders').post(orderService.addOrder)
-    .get(orderService.getOrders);
-router.route('/orders/:orderId').get(orderService.addOrder)
-    .put(orderService.addOrder)
-    .delete(orderService.addOrder);
+router.route('/users').post(userService.addUser)
+    .get(userService.getUsers);
+router.route('/users/:uid').get(userService.getUser)
+    .put(userService.updateUser)
+    .delete(userService.deleteUser);
+
+router.route('/users/:uid/orders').get(orderService.getOrders);
 
 module.exports = router;
