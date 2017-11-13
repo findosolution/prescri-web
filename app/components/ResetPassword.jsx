@@ -32,10 +32,10 @@ export class ResetPassword extends React.Component {
 
   render() {
 
-    var {pwresetProps, dispatch} = this.props;
+    var {unAuthProps, dispatch} = this.props;
 
     function header () {
-      if(!pwresetProps.status) {
+      if(!unAuthProps.status) {
         return <h1 className="page-title">Let's find your account</h1>;
       } else {
         return <h1 className="page-title">We just emailed you a link</h1>;
@@ -44,7 +44,7 @@ export class ResetPassword extends React.Component {
 
     function contentHeader() {
 
-      if(!pwresetProps.status) {
+      if(!unAuthProps.status) {
         return  <p>Please enter your email</p>;
       } else {
         return <p>Please check your email and click the secure link</p>;
@@ -53,7 +53,7 @@ export class ResetPassword extends React.Component {
 
     function contentForm() {
 
-      if(!pwresetProps.status) {
+      if(!unAuthProps.status) {
         return <div><input type="text" ref="emailphone" placeholder="email or phone"/>
                   <button className="button expanded">Submit</button></div>;
       } else {
@@ -63,7 +63,7 @@ export class ResetPassword extends React.Component {
     }
 
     function tryDifferentEmail() {
-      if(pwresetProps.status) {
+      if(unAuthProps.status) {
 
           return <button className="button expanded" onClick={(e)=> {
                   e.preventDefault();

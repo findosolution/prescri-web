@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
-import {number, email,numberOremail} from 'ValidationHelper';
+import {number, email,numberOremail, password} from 'ValidationHelper';
 import * as actions from 'actions';
+import {firebase} from 'myFirebase';
 
 export class Login extends React.Component {
 
@@ -10,12 +11,13 @@ export class Login extends React.Component {
     super(props);
     this.abide;
     this.form;
-    this.state = { submitDisabled: false };
+    this.state = { submitDisabled: false, isShown: false };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleForgotPassword =this.handleForgotPassword.bind(this);
-
+    this.handleOnchange = this.handleOnchange.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   componentDidMount() {
@@ -44,12 +46,34 @@ export class Login extends React.Component {
 
   }
 
+  handleOnchange() {
+
+      var userId = this.refs.userid.value;
+
+      if(number.test(userId)) {
+        $('#form-password').hide();
+      }else if(email.test(userId)){
+        $('#form-password').show();
+      }
+  }
+
   enableSubmit() {
     this.setState({ submitDisabled: false });
   }
 
   disableSubmit() {
     this.setState({ submitDisabled: true });
+  }
+
+  handleVerify() {
+    var code = this.refs.code.value;
+    console.log(code);
+    window.confirmationResult.confirm(code).then(function (result) {
+      var user = result.user;
+      console.log(user);
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   handleSubmit(e) {
@@ -66,14 +90,25 @@ export class Login extends React.Component {
         userObj = {
           userId : userId,
           userPw : userPw,
-          method : 'USRPW'
+          method : 'USRPW',
+          recaptchaVerifier : null
         };
       } else if (number.test(userId)) {
+
+        window.recaptchaVerifier = new  firebase.auth.RecaptchaVerifier('sign-in-button', {
+          'size': 'invisible',
+          'callback': function(response) {
+            hashHistory.push('/confirm-code');
+          }
+        });
+
         userObj = {
           userId : userId,
-          userPw : userPw,
-          method : 'MOBILE'
+          userPw : null,
+          method : 'MOBILE',
+          recaptchaVerifier: window.recaptchaVerifier
         };
+
       }
       dispatch(actions.startLogin(userObj));
 
@@ -87,7 +122,10 @@ export class Login extends React.Component {
     console.log('handleForgotPassword');
     hashHistory.push('/reset-password');
   }
-
+  handleSignUp (e) {
+    e.preventDefault();
+    hashHistory.push('/SignUp');
+  }
   onGoogleLogin(provider) {
 
     var {dispatch} = this.props;
@@ -108,32 +146,34 @@ export class Login extends React.Component {
         <div className="row">
           <div className="column small-centered small-10 medium-6 large-5">
             <div className="container">
-              <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
-                <div className="container_container">
-                  <div className="row">
-                    <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number" required pattern="numberOremail"/>
-                      <span className="form-error">Email or Mobile number</span>
+              <div className="container_container">
+                <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
+                    <div className="row">
+                      <div className="medium-12 columns">
+                        <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
+                        <span className="form-error">I am required!</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="medium-12 columns">
-                      <input type="password" ref="password" placeholder="Password"/>
+                    <div className="row">
+                      <div className="medium-12 columns" id='form-password'>
+                        <input type="password" ref="password" placeholder="Password" required/>
+                        <span className="form-error">I am required!</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="medium-12 columns">
-                      <button disabled={this.state.submitDisabled} className="button Primary expanded">Sign in</button>
-                  </div>
-                  </div>
+                    <div className="row">
+                      <div className="medium-12 columns">
+                        <button id='sign-in-button' className="button Primary expanded">Sign in</button>
+                    </div>
+                    </div>
+                  </form>
                   <div className="row">
                     <div className="medium-12 columns centered">
-                      <a href="#" onClick={this.handleForgotPassword}>Forgot password</a>
+                      <a href="#" onClick={this.handleForgotPassword}>Forgot password?</a>
                     </div>
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <label className="register-label">Don't have a account... please <a className="inner-route-register">sign up here</a></label>
+                      <label className="register-label">Don't have a account... please <a href="#" onClick={this.handleSignUp} className="inner-route-register">sign up here</a></label>
                     </div>
                   </div>
                   <div className="row">
@@ -165,7 +205,6 @@ export class Login extends React.Component {
                     <div className="medium-8 columns"/>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>

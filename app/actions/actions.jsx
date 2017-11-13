@@ -61,6 +61,13 @@ export var login = (uid) => {
   };
 };
 
+export var confirmLogin = (confirmationResult) => {
+  return {
+    type: 'CONFIRMLOGIN',
+    confirmationResult
+  }
+};
+
 export var startLogin = (userObj) => {
   return (dispatch, getState) => {
 
@@ -90,6 +97,16 @@ export var startLogin = (userObj) => {
         }, (error) => {
           console.log('Auth failed', error);
         });
+
+      case 'MOBILE':
+        return firebase.auth().signInWithPhoneNumber(userObj.userId, userObj.recaptchaVerifier)
+            .then(function (confirmationResult) {
+              dispatch(confirmLogin(confirmationResult));
+            }).catch(function (error) {
+              // Error; SMS not sent
+              // ...
+            });
+
       default:
         return userObj
     }
