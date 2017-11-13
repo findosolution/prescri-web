@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
-import {number, email,numberOremail} from 'ValidationHelper';
+import {number, email,numberOremail, password} from 'ValidationHelper';
 import * as actions from 'actions';
 import {firebase} from 'myFirebase';
 
@@ -15,7 +15,7 @@ export class Login extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleForgotPassword =this.handleForgotPassword.bind(this);
-
+    this.handleOnchange = this.handleOnchange.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
   }
 
@@ -45,6 +45,17 @@ export class Login extends React.Component {
 
   }
 
+  handleOnchange() {
+
+      var userId = this.refs.userid.value;
+
+      if(number.test(userId)) {
+        $('#form-password').hide();
+      }else if(email.test(userId)){
+        $('#form-password').show();
+      }
+  }
+
   enableSubmit() {
     this.setState({ submitDisabled: false });
   }
@@ -57,13 +68,9 @@ export class Login extends React.Component {
     var code = this.refs.code.value;
     console.log(code);
     window.confirmationResult.confirm(code).then(function (result) {
-  // User signed in successfully.
       var user = result.user;
       console.log(user);
-      // ...
     }).catch(function (error) {
-      // User couldn't sign in (bad verification code?)
-      // ...
       console.log(error);
     });
   }
@@ -95,7 +102,7 @@ export class Login extends React.Component {
         });
 
         userObj = {
-          userId : '+94772325524',
+          userId : userId,
           userPw : null,
           method : 'MOBILE',
           recaptchaVerifier: window.recaptchaVerifier
@@ -139,13 +146,14 @@ export class Login extends React.Component {
                 <div className="container_container">
                   <div className="row">
                     <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number" required pattern="numberOremail"/>
-                      <span className="form-error">Email or Mobile number</span>
+                      <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
+                      <span className="form-error">I am required!</span>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="medium-12 columns">
-                      <input type="password" ref="password" placeholder="Password"/>
+                    <div className="medium-12 columns" id='form-password'>
+                      <input type="password" ref="password" placeholder="Password" required/>
+                      <span className="form-error">I am required!</span>
                     </div>
                   </div>
                   <div className="row">
@@ -155,7 +163,7 @@ export class Login extends React.Component {
                   </div>
                   <div className="row">
                     <div className="medium-12 columns centered">
-                      <a href="#" onClick={this.handleForgotPassword}>Forgot password</a>
+                      <a href="#" onClick={this.handleForgotPassword}>Forgot password?</a>
                     </div>
                   </div>
                   <div className="row">
