@@ -44,14 +44,17 @@ export class SignUp extends React.Component {
     var {dispatch} = this.props;
 
     var firstname = this.refs.firstname.value;
-    console.log(firstname);
+    var lastname = this.refs.lastname.value;
+    var password = this.refs.password.value;
   }
+
+ }
 
   render() {
 
     return(
       <div>
-        <h1 className="page-title">Place your order...</h1>
+        <h1 className="page-title">Sign up now</h1>
           <div className="row">
                 <div className="column small-centered small-11 medium-8 large-8">
                   <div className="container">
@@ -87,7 +90,7 @@ export class SignUp extends React.Component {
                       </div>
                     </form>
                    </div>
-                  </div>
+                </div>
             </div>
        </div>
     );

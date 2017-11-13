@@ -162,7 +162,7 @@ export class Login extends React.Component {
                     </div>
                     <div className="row">
                       <div className="medium-12 columns">
-                        <button disabled={this.state.submitDisabled} id='sign-in-button' className="button Primary expanded">Sign in</button>
+                        <button id='sign-in-button' className="button Primary expanded">Sign in</button>
                     </div>
                     </div>
                   </form>
