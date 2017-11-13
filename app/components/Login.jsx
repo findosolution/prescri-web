@@ -17,6 +17,7 @@ export class Login extends React.Component {
     this.handleForgotPassword =this.handleForgotPassword.bind(this);
     this.handleOnchange = this.handleOnchange.bind(this);
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   componentDidMount() {
@@ -121,7 +122,10 @@ export class Login extends React.Component {
     console.log('handleForgotPassword');
     hashHistory.push('/reset-password');
   }
-
+  handleSignUp (e) {
+    e.preventDefault();
+    hashHistory.push('/SignUp');
+  }
   onGoogleLogin(provider) {
 
     var {dispatch} = this.props;
@@ -142,25 +146,26 @@ export class Login extends React.Component {
         <div className="row">
           <div className="column small-centered small-10 medium-6 large-5">
             <div className="container">
-              <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
-                <div className="container_container">
-                  <div className="row">
-                    <div className="medium-12 columns">
-                      <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
-                      <span className="form-error">I am required!</span>
+              <div className="container_container">
+                <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
+                    <div className="row">
+                      <div className="medium-12 columns">
+                        <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
+                        <span className="form-error">I am required!</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="medium-12 columns" id='form-password'>
-                      <input type="password" ref="password" placeholder="Password" required/>
-                      <span className="form-error">I am required!</span>
+                    <div className="row">
+                      <div className="medium-12 columns" id='form-password'>
+                        <input type="password" ref="password" placeholder="Password" required/>
+                        <span className="form-error">I am required!</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="medium-12 columns">
-                      <button disabled={this.state.submitDisabled} id='sign-in-button' className="button Primary expanded">Sign in</button>
-                  </div>
-                  </div>
+                    <div className="row">
+                      <div className="medium-12 columns">
+                        <button disabled={this.state.submitDisabled} id='sign-in-button' className="button Primary expanded">Sign in</button>
+                    </div>
+                    </div>
+                  </form>
                   <div className="row">
                     <div className="medium-12 columns centered">
                       <a href="#" onClick={this.handleForgotPassword}>Forgot password?</a>
@@ -168,7 +173,7 @@ export class Login extends React.Component {
                   </div>
                   <div className="row">
                     <div className="medium-12 columns">
-                      <label className="register-label">Don't have a account... please <a className="inner-route-register">sign up here</a></label>
+                      <label className="register-label">Don't have a account... please <a href="#" onClick={this.handleSignUp} className="inner-route-register">sign up here</a></label>
                     </div>
                   </div>
                   <div className="row">
@@ -200,7 +205,6 @@ export class Login extends React.Component {
                     <div className="medium-8 columns"/>
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>
