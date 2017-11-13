@@ -1,0 +1,20 @@
+import axios from 'axios';
+
+const ROOT_URL = 'http://localhost:3000/api/';
+
+var UserAPI = {
+
+  registerIfNot: (user) => {
+    var requestURL = `${ROOT_URL}users`;
+    return axios.post(requestURL, user).then((snapshot) => {
+      if(snapshot.status && snapshot.status === 200) {
+        console.log(snapshot.data);
+        return snapshot.data;
+      }
+    }, (err) => {
+      return err;
+    });
+  }
+};
+
+module.exports = UserAPI;
