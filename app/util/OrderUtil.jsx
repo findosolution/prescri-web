@@ -6,8 +6,8 @@ module.exports = {
     });
 
     filteredOrders = filteredOrders.filter((order) => {
-      var pharmacy = order.pharmacy.toLowerCase();
-      return (searchText.length === 0 || pharmacy.indexOf(searchText) > -1);
+      var pharmacy = order.pharmacy;
+      return (searchText.length === 0 || pharmacy.toLowerCase().indexOf(searchText) > -1);
     });
 
     return filteredOrders;
