@@ -57,7 +57,7 @@ export class ResetPassword extends React.Component {
         return <div><input type="text" ref="emailphone" placeholder="email or phone"/>
                   <button className="button expanded">Submit</button></div>;
       } else {
-        return <div><input type="hidden" ref="emailphone" value={pwresetProps.email}/>
+        return <div><input type="hidden" ref="emailphone" value={unAuthProps.email}/>
                 <button className="button expanded">Resend link</button></div>;
       }
     }

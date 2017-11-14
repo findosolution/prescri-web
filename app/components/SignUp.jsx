@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
-
+import {email} from 'ValidationHelper';
 import * as actions from 'actions';
 
 export class SignUp extends React.Component {
@@ -16,7 +16,17 @@ export class SignUp extends React.Component {
 
   componentDidMount() {
 
-    this.abide = new Foundation.Abide($('#signup-form'), { liveValidate: false});
+    this.abide = new Foundation.Abide($('#signup-form'), { liveValidate: false,
+    validators: {
+            emailValidator: function ($el,required,parent) {
+
+              if (!email.test($el.val())) {
+                  document.getElementById('email_error').innerText = "Please enter a valid email";
+                  return false;
+              }
+              return true;
+            }
+        }});
     this.form = $('#signup-form');
 
     this.form.on('invalid.zf.abide', () => {
@@ -71,36 +81,43 @@ export class SignUp extends React.Component {
                     <form ref="form" id="signup-form" data-abide noValidate onSubmit={this.handleSignUp}>
                       <div className="container_container">
                         <div className="row">
-                          <div className="small-12 columns"><label>First name</label></div>
-                          <div className="small-12 columns">
+                          <div className="medium-2 columns"><label>First name</label></div>
+                          <div className="medium-10 columns">
                             <input type="text" ref="firstname" placeholder="First name" required />
                             <span className="form-error">Please enter your first name</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-12 columns"><label>Last name</label></div>
-                          <div className="small-12 columns">
+                          <div className="small-2 columns"><label>Last name</label></div>
+                          <div className="small-10 columns">
                             <input type="text" ref="lastname" placeholder="Last name" required/>
                             <span className="form-error">Please enter your last name</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-12 columns"><label>Email</label></div>
-                          <div className="small-12 columns">
-                            <input type="text" ref="email" placeholder="Email" required/>
-                            <span className="form-error">Please enter your Email</span>
+                          <div className="small-2 columns"><label>Email</label></div>
+                          <div className="small-10 columns">
+                            <input type="text" ref="email" placeholder="Email" required data-validator="emailValidator"/>
+                            <span id="email_error" className="form-error">Please enter your Email</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-12 columns"><label>Password</label></div>
-                          <div className="small-12 columns">
-                            <input type="password" ref="password" placeholder="password" required/>
+                          <div className="small-2 columns"><label>Password</label></div>
+                          <div className="small-10 columns">
+                            <input type="password" ref="password" id="password" placeholder="yeti4preZ" required/>
                             <span className="form-error">I am required</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-12 columns"></div>
-                          <div className="small-12 columns">
+                          <div className="small-2 columns"><label>Re-enter Password</label></div>
+                          <div className="small-10 columns">
+                            <input type="password" placeholder="yeti4preZ" required/>
+                              <span className="form-error">Hey, passwords are supposed to match!</span>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="small-2 columns"></div>
+                          <div className="small-10 columns">
                             <button className="button Primary expanded">Join now</button>
                           </div>
                         </div>
