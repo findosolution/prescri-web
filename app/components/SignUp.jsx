@@ -48,8 +48,6 @@ export class SignUp extends React.Component {
     var password = this.refs.password.value;
   }
 
- }
-
   render() {
 
     return(

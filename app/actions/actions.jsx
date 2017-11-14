@@ -90,7 +90,8 @@ export var startLogin = (userObj) => {
             email: result.user.email
           };
           return UserAPI.registerIfNot(user).then((snapshot) => {
-            //dispatch(addOrder(snapshot));
+            console.log('signin', snapshot);
+            dispatch(addOrder(snapshot));
           }, (err) => {
             console.log(err);
           });
