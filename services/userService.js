@@ -1,17 +1,26 @@
 var moment = require('moment');
 var myFirebase = require.main.require('./firebase/myFirebase');
 
-exports.addUser = function(req, res) {
+exports.addUserIfNotExists = function(req, res) {
   var user = req.body;
   user.createdAt = moment().unix();
   var uid = user.uid;
-  var userRef = myFirebase.firebaseRef.child(`users`);
+  if(user.isPharmacy && user.isPharmacy === true) {
+    user.isPharmacy = true;
+  } else {
+    user.isPharmacy = false;
+  }
+
+  var userRef = myFirebase.firebaseRef.child(`users/${uid}/profile`);
 
   userRef.once('value', function(snapshot) {
-    if (snapshot.hasChild(uid)) {
+    if (snapshot.val()) {
       console.log('user exists');
+      var savedUser = snapshot.val();
+      savedUser.id = snapshot.key;
+      return res.json(savedUser);
     } else {
-      return userRef.child(uid).push(user).then((snapshot) => {
+      return userRef.push(user).then((snapshot) => {
         user.id =  userRef.key;
         console.log(user);
         return res.json(user);

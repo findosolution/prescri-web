@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
 router.route('/orders').post(orderService.addOrder);
 
-router.route('/users').post(userService.addUser)
+router.route('/users').post(userService.addUserIfNotExists)
     .get(userService.getUsers);
 router.route('/users/:uid').get(userService.getUser)
     .put(userService.updateUser)
