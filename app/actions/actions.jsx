@@ -68,6 +68,31 @@ export var confirmLogin = (confirmationResult) => {
   }
 };
 
+export var startConfirmingLogin = (code, confirmationResult) => {
+
+  return (dispatch, getState) => {
+    window.confirmationResult = confirmationResult;
+    window.confirmationResult.confirm(code).then(function (result) {
+
+      var user = {
+        uid: result.user.uid,
+        name: result.user.displayName,
+        email: result.user.email
+      };
+
+      return UserAPI.registerIfNot(user).then((snapshot) => {
+        console.log('signin', snapshot);
+        dispatch(addOrder(snapshot));
+      }, (err) => {
+        console.log(err);
+      });
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+  }
+};
+
 export var startLogin = (userObj) => {
   return (dispatch, getState) => {
 
@@ -157,16 +182,29 @@ export var startPwReset = (emailMobile) => {
 
 };
 
-export var startSignUp = () => {
+export var startSignUp = (reg_user) => {
   return (dispatch, getState) => {
 
-    firebase.auth().createUserWithEmailAndPassword('findosolution@gmail.com', '1qaz2wsx@').catch(function(error) {
-    // Handle Errors here.
-    //  var errorCode = error.code;
-    //  var errorMessage = error.message;
-    // ...
+    firebase.auth().createUserWithEmailAndPassword(reg_user.email, reg_user.password).then((result) => {
+
+      var user = {
+        uid: result.uid,
+        name: reg_user.firstname + " " + reg_user.lastname,
+        email: result.email
+      };
+      return UserAPI.registerIfNot(user).then((snapshot) => {
+        dispatch(addOrder(snapshot));
+      }, (err) => {
+        console.log(err);
+      });
+
+    }).catch(function(error) {
+
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+
     });
-    console.log('user have been created');
   }
 }
 

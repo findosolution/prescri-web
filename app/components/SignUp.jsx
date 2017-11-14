@@ -46,6 +46,18 @@ export class SignUp extends React.Component {
     var firstname = this.refs.firstname.value;
     var lastname = this.refs.lastname.value;
     var password = this.refs.password.value;
+    var email = this.refs.email.value;
+
+    if(firstname.length > 0 && lastname.length> 0 && password.length) {
+      var reg_user = {
+        firstname : firstname,
+        lastname : lastname,
+        password : password,
+        email : email
+      }
+      dispatch(actions.startSignUp(reg_user));
+    }
+
   }
 
   render() {
@@ -70,6 +82,13 @@ export class SignUp extends React.Component {
                           <div className="small-12 columns">
                             <input type="text" ref="lastname" placeholder="Last name" required/>
                             <span className="form-error">Please enter your last name</span>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="small-12 columns"><label>Email</label></div>
+                          <div className="small-12 columns">
+                            <input type="text" ref="email" placeholder="Email" required/>
+                            <span className="form-error">Please enter your Email</span>
                           </div>
                         </div>
                         <div className="row">

@@ -14,20 +14,10 @@ export class ConfirmCode extends React.Component {
   handleVerify() {
 
     var code = this.refs.code.value;
-    var {unAuthProps} = this.props;
-    window.confirmationResult = unAuthProps.confirmationResult;
-
-    console.log(code);
-    window.confirmationResult.confirm(code).then(function (result) {
-  // User signed in successfully.
-      var user = result.user;
-      console.log(user);
-      // ...
-    }).catch(function (error) {
-      // User couldn't sign in (bad verification code?)
-      // ...
-      console.log(error);
-    });
+    var {dispatch, unAuthProps} = this.props;
+    if(code.length > 0) {
+      dispatch(actions.startConfirmingLogin(code, unAuthProps.confirmationResult));
+    }
   }
 
   render() {

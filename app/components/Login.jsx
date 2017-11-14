@@ -84,7 +84,7 @@ export class Login extends React.Component {
     var userPw = this.refs.password.value;
     var userObj = {};
 
-    if(userId.length > 0 && userPw.length > 0 ){
+    if(userId.length > 0){
 
       if(email.test(userId)) {
         userObj = {
