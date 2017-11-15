@@ -11,7 +11,7 @@ export class Login extends React.Component {
     super(props);
     this.abide;
     this.form;
-    this.state = { submitDisabled: false, isShown: false };
+    this.state = { submitDisabled: false};
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleForgotPassword =this.handleForgotPassword.bind(this);

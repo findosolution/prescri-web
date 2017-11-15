@@ -189,7 +189,7 @@ export var startSignUp = (reg_user) => {
 
       var user = {
         uid: result.uid,
-        name: reg_user.firstname + " " + reg_user.lastname,
+        name: reg_user.firstname,
         email: result.email
       };
       return UserAPI.registerIfNot(user).then((snapshot) => {
