@@ -94,41 +94,47 @@ export class SignUp extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-2 columns"><label>Last name</label></div>
-                          <div className="small-10 columns">
+                          <div className="medium-2 columns"><label>Last name</label></div>
+                          <div className="medium-10 columns">
                             <input type="text" ref="lastname" placeholder="Last name" required/>
                             <span className="form-error">Please enter your last name</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-2 columns"><label>Email</label></div>
-                          <div className="small-10 columns">
+                          <div className="medium-2 columns"><label>Email</label></div>
+                          <div className="medium-10 columns">
                             <input type="text" ref="email" placeholder="Email" required data-validator="emailValidator"/>
                             <span id="email_error" className="form-error">Please enter your Email</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-2 columns"><label>Password</label></div>
-                          <div className="small-10 columns">
+                          <div className="medium-2 columns"><label>Password</label></div>
+                          <div className="medium-10 columns">
                             <input type="password" ref="password" id="password" placeholder="yeti4preZ" required/>
                             <span className="form-error">I am required</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="small-2 columns"><label>Re-enter Password</label></div>
-                          <div className="small-10 columns">
+                          <div className="medium-2 columns"><label>Re-enter Password</label></div>
+                          <div className="medium-10 columns">
                             <input type="password" placeholder="yeti4preZ" required/>
                               <span className="form-error">Hey, passwords are supposed to match!</span>
                           </div>
                         </div>
-                        <Recaptcha
-                            sitekey='xxxxxxxxxxxxxxxxxxxx'
-                            onloadCallback={loaded}
-                            verifyCallback={callback}
-                            />
                         <div className="row">
-                          <div className="small-2 columns"></div>
-                          <div className="small-10 columns">
+                          <div className="medium-2 columns"></div>
+                          <div className="medium-10 columns">
+                            <Recaptcha
+                                sitekey='6LfhxjgUAAAAANtNr1kX9PQUMNskHQ-xRQCmwfO2'
+                                onloadCallback={loaded}
+                                verifyCallback={callback}
+                                />
+                          </div>
+                        </div>
+                        <div className="row">&nbsp;</div>
+                        <div className="row">
+                          <div className="medium-2 columns"></div>
+                          <div className="medium-10 columns">
                             <button className="button Primary expanded">Join now</button>
                           </div>
                         </div>
