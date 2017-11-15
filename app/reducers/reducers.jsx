@@ -61,3 +61,17 @@ export var unAuthReducer = (state ={} , action) => {
       return state;
   };
 };
+
+export var errorReducer = (state =[], action) => {
+  switch (action.type) {
+    case 'ERROR_OCCURED':
+      return [
+        ...state,
+        action.errorObj
+      ];
+
+    default:
+      return state;
+
+  }
+};

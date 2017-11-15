@@ -121,7 +121,12 @@ export var startLogin = (userObj) => {
             console.log(err);
           });
         }, (error) => {
-          console.log('Auth failed', error);
+          var errorObj = {
+            'action': 'signInWithPopup',
+            'errorCode' : error.code,
+            'errorMessage': error.message
+          }
+          dispatch(addError(errorObj));
         });
 
       case 'MOBILE':
@@ -129,8 +134,12 @@ export var startLogin = (userObj) => {
             .then(function (confirmationResult) {
               dispatch(confirmLogin(confirmationResult));
             }).catch(function (error) {
-              // Error; SMS not sent
-              // ...
+              var errorObj = {
+                'action': 'signInWithPhoneNumber',
+                'errorCode' : error.code,
+                'errorMessage': error.message
+              }
+              dispatch(addError(errorObj));
             });
 
       default:
@@ -169,17 +178,24 @@ export var startPwReset = (emailMobile) => {
       dispatch(passwordReset(resetProps));
 
     }).catch(function(error) {
-      // An error happened.
-      console.log('An error happened',error);
-      resetProps = {
-        status : isEmailSent,
-        email : emailMobile
-      }
 
-      dispatch(passwordReset(resetProps));
+      var errorObj = {
+        'action': 'sendPasswordResetEmail',
+        'errorCode' : error.code,
+        'errorMessage': error.message
+      }
+      dispatch(addError(errorObj));
+
     });
   }
 
+};
+
+export var addError = (errorObj) =>{
+  return {
+    type: 'ERROR_OCCURED',
+    errorObj
+  };
 };
 
 export var startSignUp = (reg_user) => {
@@ -200,9 +216,12 @@ export var startSignUp = (reg_user) => {
 
     }).catch(function(error) {
 
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode, errorMessage);
+      var errorObj = {
+        'action': 'createUserWithEmailAndPassword',
+        'errorCode' : error.code,
+        'errorMessage': error.message
+      }
+      dispatch(addError(errorObj));
 
     });
   }
@@ -211,8 +230,19 @@ export var startSignUp = (reg_user) => {
 export var startLogout = () => {
   return (dispatch, getState) => {
     return firebase.auth().signOut().then(() => {
+
       dispatch(logout());
       console.log('Logout success');
-    });
+
+    }).catch(function(error) {
+
+      var errorObj = {
+        'action': 'signOut',
+        'errorCode' : error.code,
+        'errorMessage': error.message
+      }
+      dispatch(addError(errorObj));
+
+    });;
   };
 };
