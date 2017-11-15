@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import {email} from 'ValidationHelper';
 import * as actions from 'actions';
+var Recaptcha = require('react-gcaptcha');
 
 export class SignUp extends React.Component {
 
@@ -71,7 +72,12 @@ export class SignUp extends React.Component {
   }
 
   render() {
-
+    function callback (key) {
+    console.log(key);
+    }
+    function loaded() {
+    console.log('recaptchaLoaded');
+    }
     return(
       <div>
         <h1 className="page-title">Sign up now</h1>
@@ -115,6 +121,11 @@ export class SignUp extends React.Component {
                               <span className="form-error">Hey, passwords are supposed to match!</span>
                           </div>
                         </div>
+                        <Recaptcha
+                            sitekey='xxxxxxxxxxxxxxxxxxxx'
+                            onloadCallback={loaded}
+                            verifyCallback={callback}
+                            />
                         <div className="row">
                           <div className="small-2 columns"></div>
                           <div className="small-10 columns">
