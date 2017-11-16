@@ -79,6 +79,7 @@ export class SignUp extends React.Component {
   render() {
 
     var {submitDisabled, verifyCallback} = this.state;
+    var {errors} = this.props;
 
     function enableSignUp() {
       if(!submitDisabled && verifyCallback) {
@@ -88,6 +89,16 @@ export class SignUp extends React.Component {
       }
     };
 
+    function errorHolder() {
+      if(errors.length>0) {
+        return <div data-alert className="alert-box alert radius">
+        This is a success alert with a radius.
+        <a href="#" className="close">&times;</a>
+          </div>;
+      }
+      
+    };
+
     return(
       <div>
         <h1 className="page-title">Sign up now</h1>
@@ -95,6 +106,7 @@ export class SignUp extends React.Component {
                 <div className="column small-centered small-11 medium-8 large-8">
                   <div className="container">
                     <form ref="form" id="signup-form" data-abide noValidate onSubmit={this.handleSignUp}>
+                      {errorHolder()}
                       <div className="container_container">
                         <div className="row">
                           <div className="medium-2 columns"><label>First name</label></div>
