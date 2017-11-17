@@ -61,7 +61,8 @@ module.exports = {
       actions: 'app/actions/actions.jsx',
       reducers: 'app/reducers/reducers.jsx',
       configStore: 'app/store/configStore.jsx',
-      myFirebase: 'firebase/myFirebase.js'
+      myFirebase: 'firebase/myFirebase.js',
+      orderConstants: 'constants/orderConstants.js'
     },
     extensions: ['','.js','.jsx']
   },

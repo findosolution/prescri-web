@@ -23,10 +23,11 @@ export class OrderCreate extends React.Component {
       name: this.refs.name.value,
       pharmacy: this.refs.pharmacy.value,
       prescription: this.refs.prescription.value,
-      receivedby: "geQRvcpzzbYzLr36U238K7FvqH03"
+      receivedby: 'geQRvcpzzbYzLr36U238K7FvqH03'
     };
-    dispatch(actions.startAddOrder(tempOrder));
-    hashHistory.push('/orders');
+    dispatch(actions.startAddOrder(tempOrder)).then(() => {
+      hashHistory.push('/orders');
+    });
   }
 
   render() {

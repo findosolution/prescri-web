@@ -28,11 +28,11 @@ export var addOrder = (order) => {
 
 export var startAddOrder = (order) => {
   return (dispatch, getState) => {
-    order = {
+    var newOrder = {
       ...order,
       orderby: getState().user.uid
     };
-    return OrderAPI.addOrder(order).then((snapshot) => {
+    return OrderAPI.addOrder(newOrder).then((snapshot) => {
       dispatch(addOrder(snapshot));
     }, (err) => {
       console.log(err);

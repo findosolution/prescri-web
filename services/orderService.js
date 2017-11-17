@@ -1,14 +1,16 @@
 var moment = require('moment');
 var myFirebase = require.main.require('./firebase/myFirebase');
+var constants = require.main.require('./constants/orderConstants');
 
 exports.addOrder = function(req, res) {
   var order = req.body;
   order.createdAt = moment().unix();
   order.completedAt = null;
-  var uid = order.orderby;
+  order.status = constants.status.NEW;
+  var orderer = order.orderby;
   var receiver = order.receivedby;
-
-  var ordersRefOrderer = myFirebase.firebaseRef.child(`users/${uid}/orders`);
+  
+  var ordersRefOrderer = myFirebase.firebaseRef.child(`users/${orderer}/orders`);
   var orderRef = ordersRefOrderer.push(order);
 
   var ordersRefReceiver = myFirebase.firebaseRef.child(`users/${receiver}/orders`);
