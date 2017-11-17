@@ -8,7 +8,6 @@ var UserAPI = {
     var requestURL = `${ROOT_URL}users`;
     return axios.post(requestURL, user).then((snapshot) => {
       if(snapshot.status && snapshot.status === 200) {
-        console.log(snapshot.data);
         return snapshot.data;
       }
     }, (err) => {
@@ -19,7 +18,6 @@ var UserAPI = {
     var requestURL = `${ROOT_URL}users/${uid}`;
     return axios.get(requestURL).then((snapshot) => {
       if(snapshot.status && snapshot.status === 200) {
-        console.log(snapshot.data);
         return snapshot.data;
       }
     }, (err) => {

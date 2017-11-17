@@ -11,7 +11,6 @@ export var loadOrders = (orders) => {
 
 export var startLoadOrders = () => {
   return (dispatch, getState) => {
-    console.log(getState());
     return OrderAPI.getOrders(getState().user.uid).then((snapshot) => {
       dispatch(loadOrders(snapshot));
     }, (err) => {
@@ -82,7 +81,6 @@ export var startConfirmingLogin = (code, confirmationResult) => {
       };
 
       return UserAPI.registerIfNot(user).then((snapshot) => {
-        console.log('signin', snapshot);
         dispatch(addOrder(snapshot));
       }, (err) => {
         console.log(err);
@@ -116,8 +114,7 @@ export var startLogin = (userObj) => {
             email: result.user.email
           };
           return UserAPI.registerIfNot(user).then((snapshot) => {
-            console.log('signin', snapshot);
-            dispatch(addOrder(snapshot));
+
           }, (err) => {
             console.log(err);
           });
@@ -152,7 +149,6 @@ export var startLogin = (userObj) => {
 export var doLogin = (uid) => {
   return (dispatch, getState) => {
     return UserAPI.getUser(uid).then((snapshot) => {
-      console.log(snapshot);
       dispatch(login(snapshot));
     }, (err) => {
       console.log(err);
