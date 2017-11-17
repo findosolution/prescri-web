@@ -14,6 +14,17 @@ var UserAPI = {
     }, (err) => {
       return err;
     });
+  },
+  getUser: (uid) => {
+    var requestURL = `${ROOT_URL}users/${uid}`;
+    return axios.get(requestURL).then((snapshot) => {
+      if(snapshot.status && snapshot.status === 200) {
+        console.log(snapshot.data);
+        return snapshot.data;
+      }
+    }, (err) => {
+      return err;
+    });
   }
 };
 

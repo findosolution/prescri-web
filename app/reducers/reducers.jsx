@@ -36,11 +36,10 @@ export var showCompletedReducer = (state = false, action) => {
 };
 
 export var authReducer = (state = {}, action) => {
+  console.log(action.user);
   switch (action.type) {
     case 'LOGIN':
-      return {
-        uid: action.uid
-      };
+      return action.user
     case 'LOGOUT':
       return {};
     default:

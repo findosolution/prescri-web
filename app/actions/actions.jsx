@@ -11,6 +11,7 @@ export var loadOrders = (orders) => {
 
 export var startLoadOrders = () => {
   return (dispatch, getState) => {
+    console.log(getState());
     return OrderAPI.getOrders(getState().user.uid).then((snapshot) => {
       dispatch(loadOrders(snapshot));
     }, (err) => {
@@ -54,10 +55,10 @@ export var toggleShowCompleted = () => {
   };
 };
 
-export var login = (uid) => {
+export var login = (user) => {
   return {
     type: 'LOGIN',
-    uid
+    user
   };
 };
 
@@ -136,6 +137,17 @@ export var startLogin = (userObj) => {
       default:
         return userObj
     }
+  };
+};
+
+export var doLogin = (uid) => {
+  return (dispatch, getState) => {
+    return UserAPI.getUser(uid).then((snapshot) => {
+      console.log(snapshot);
+      dispatch(login(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
   };
 };
 

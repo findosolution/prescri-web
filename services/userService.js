@@ -13,11 +13,14 @@ exports.addUserIfNotExists = function(req, res) {
 
   var userRef = myFirebase.firebaseRef.child(`users/${uid}/profile`);
 
-  userRef.once('value', function(snapshot) {
+  userRef.once('value', (snapshot) => {
     if (snapshot.val()) {
       console.log('user exists');
-      var savedUser = snapshot.val();
-      savedUser.id = snapshot.key;
+      var userKey = Object.keys(snapshot.val())[0];
+      var data = snapshot.val();
+      var savedUser = data[userKey];
+      savedUser.id = userKey;
+
       return res.json(savedUser);
     } else {
       return userRef.push(user).then((snapshot) => {
@@ -36,7 +39,22 @@ exports.getUsers = function(req, res) {
 };
 
 exports.getUser = function(req, res) {
-  res.json('getUser');
+  var uid = req.params.uid;
+  var userRef = myFirebase.firebaseRef.child(`users/${uid}/profile`);
+
+  userRef.once('value', (snapshot) => {
+    if (snapshot.val()) {
+      var userKey = Object.keys(snapshot.val())[0];
+      var data = snapshot.val();
+      var savedUser = data[userKey];
+      savedUser.id = userKey;
+
+      return res.json(savedUser);
+    } else {
+      console.log('user not exists');
+      return res.json('error');
+    }
+  });
 };
 
 exports.updateUser = function(req, res) {
