@@ -12,6 +12,8 @@ export var orderReducer = (state = [], action) => {
           ...action.order
         }
       ];
+    case 'LOGOUT':
+      return [];
     default:
       return state;
   };
@@ -21,6 +23,8 @@ export var searchTextReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_SEARCH_TEXT':
       return action.text;
+    case 'LOGOUT':
+      return '';
     default:
       return state;
   };
@@ -30,6 +34,8 @@ export var showCompletedReducer = (state = false, action) => {
   switch (action.type) {
     case 'TOGGLE_SHOW_COMPLETED':
       return !state;
+    case 'LOGOUT':
+      return false;
     default:
       return state;
   };
@@ -38,9 +44,7 @@ export var showCompletedReducer = (state = false, action) => {
 export var authReducer = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return {
-        uid: action.uid
-      };
+      return action.user
     case 'LOGOUT':
       return {};
     default:

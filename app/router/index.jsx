@@ -20,7 +20,6 @@ var requireLogin = (nextState, replace, next) => {
 
 var redirectIfLogedIn = (nextState, replace, next) => {
   if(firebase.auth().currentUser) {
-    
     replace('/orders');
   }
 

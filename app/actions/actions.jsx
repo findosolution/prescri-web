@@ -60,10 +60,11 @@ export var clearError = () => {
   }
 };
 
-export var login = (uid) => {
+export var login = (user) => {
+
   return {
     type: 'LOGIN',
-    uid
+    user
   };
 };
 
@@ -87,7 +88,6 @@ export var startConfirmingLogin = (code, confirmationResult) => {
       };
 
       return UserAPI.registerIfNot(user).then((snapshot) => {
-        console.log('signin', snapshot);
         dispatch(addOrder(snapshot));
       }, (err) => {
         console.log(err);
@@ -121,8 +121,7 @@ export var startLogin = (userObj) => {
             email: result.user.email
           };
           return UserAPI.registerIfNot(user).then((snapshot) => {
-            console.log('signin', snapshot);
-            dispatch(addOrder(snapshot));
+
           }, (err) => {
             console.log(err);
           });
@@ -151,6 +150,16 @@ export var startLogin = (userObj) => {
       default:
         return userObj
     }
+  };
+};
+
+export var doLogin = (uid) => {
+  return (dispatch, getState) => {
+    return UserAPI.getUser(uid).then((snapshot) => {
+      dispatch(login(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
   };
 };
 
