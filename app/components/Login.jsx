@@ -123,7 +123,11 @@ export class Login extends React.Component {
     hashHistory.push('/reset-password');
   }
   handleSignUp (e) {
+    
+    var {dispatch} = this.props;
+
     e.preventDefault();
+    dispatch(actions.clearError());
     hashHistory.push('/SignUp');
   }
   onGoogleLogin(provider) {

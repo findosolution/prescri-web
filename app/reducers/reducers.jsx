@@ -73,7 +73,8 @@ export var errorReducer = (state =[], action) => {
         ...state,
         action.errorObj
       ];
-
+    case 'CLEAR_ERROR':
+      return [];
     default:
       return state;
 

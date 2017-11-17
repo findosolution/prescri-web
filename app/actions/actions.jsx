@@ -54,7 +54,14 @@ export var toggleShowCompleted = () => {
   };
 };
 
+export var clearError = () => {
+  return {
+    type : 'CLEAR_ERROR'
+  }
+};
+
 export var login = (user) => {
+
   return {
     type: 'LOGIN',
     user
