@@ -4,6 +4,7 @@ module.exports = {
     READY: 2,
     P_READY: 3,
     REJECTED: 4,
-    COMPLEATED: 5
+    PICKED: 5,
+    REMOVED: 6
   }
 };
