@@ -77,8 +77,8 @@ export class OrderCreate extends React.Component {
                   <div className="row">
                     <div className="medium-2 columns"><label>Prescription</label></div>
                     <div className="medium-10 columns">
-                    <label for="exampleFileUploadi" className="button">Upload File</label>
-                    <input type="file" id="exampleFileUploadi" className="show-for-sr" onChange={this.handaleAttachment}/>
+                    <label htmlFor="exampleFileUploadi" className="button">Upload File</label>
+                    <input type="file" id="exampleFileUploadi" className="show-for-sr"/>
                     </div>
                   </div>
                   <div className="row">
