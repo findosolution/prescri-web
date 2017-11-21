@@ -8,6 +8,7 @@ export class OrderCreate extends React.Component {
   constructor(props) {
     super(props);
     this.onLogout = this.onLogout.bind(this);
+    this.handaleAttachment = this.handaleAttachment.bind(this);
   }
   onLogout(e) {
     e.preventDefault();
@@ -28,6 +29,10 @@ export class OrderCreate extends React.Component {
     dispatch(actions.startAddOrder(tempOrder)).then(() => {
       hashHistory.push('/orders');
     });
+  }
+
+  handaleAttachment(e) {
+    console.log('this');
   }
 
   render() {
@@ -72,7 +77,8 @@ export class OrderCreate extends React.Component {
                   <div className="row">
                     <div className="medium-2 columns"><label>Prescription</label></div>
                     <div className="medium-10 columns">
-                      <input type="text" ref="prescription" placeholder="prescription"/>
+                    <label for="exampleFileUploadi" className="button">Upload File</label>
+                    <input type="file" id="exampleFileUploadi" className="show-for-sr" onChange={this.handaleAttachment}/>
                     </div>
                   </div>
                   <div className="row">
