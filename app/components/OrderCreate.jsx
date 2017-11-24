@@ -27,6 +27,7 @@ export class OrderCreate extends React.Component {
       pharmacy: this.refs.pharmacy.value,
       receivedby: 'geQRvcpzzbYzLr36U238K7FvqH03'
     };
+    
     var attachment = $('#exampleFileUploadi')[0].files[0];
     
      // Create the file metadata
