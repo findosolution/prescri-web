@@ -16,7 +16,6 @@ exports.addOrder = function(req, res) {
   var ordersRefReceiver = myFirebase.firebaseRef.child(`users/${receiver}/orders`);
   var receiverRef = ordersRefReceiver.push(order);
 
-
   receiverRef.then((snapshot) => {
     ordersRefReceiver.child(receiverRef.key).update({referenceOrder: orderRef.key});
   }, (e) => {
