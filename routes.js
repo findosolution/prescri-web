@@ -26,5 +26,6 @@ router.route('/users/:uid').get(userService.getUser)
     .delete(userService.deleteUser);
 
 router.route('/users/:uid/orders').get(orderService.getOrders);
+router.route('/users/:uid/orders/:id').put(orderService.updateOrder);
 
 module.exports = router;

@@ -9,7 +9,7 @@ exports.addOrder = function(req, res) {
   order.status = constants.status.NEW;
   var orderer = order.orderby;
   var receiver = order.receivedby;
-  
+
   var ordersRefOrderer = myFirebase.firebaseRef.child(`users/${orderer}/orders`);
   var orderRef = ordersRefOrderer.push(order);
 
@@ -52,5 +52,37 @@ exports.getOrders = function(req, res) {
   }, (e) => {
     console.log('error when loading orders' + e);
     res.json(e);
+  });
+};
+
+exports.updateOrder = function(req, res) {
+  var updates = req.body;
+
+  var orderer = updates.orderby;
+  var receiver = updates.receivedby;
+  var orderId = req.params.id;
+  var referenceOrder = updates.referenceOrder;
+  var uid = req.params.uid;
+
+  var update = {
+    status: updates.status,
+    updatedAt: moment().unix(),
+    updateby: req.params.uid
+  }
+
+  var orderRef, referenceRef;
+
+  if(uid === orderer) { //orderer update
+    orderRef = myFirebase.firebaseRef.child(`users/${orderer}/orders/${orderId}`);
+    referenceRef = myFirebase.firebaseRef.child(`users/${receiver}/orders/${referenceOrder}`);
+  } else { //reciver update
+    orderRef = myFirebase.firebaseRef.child(`users/${receiver}/orders/${orderId}`);
+    referenceRef = myFirebase.firebaseRef.child(`users/${orderer}/orders/${referenceOrder}`);
+  }
+
+  return referenceRef.update(update).then(() => {
+    return orderRef.update(update).then(() => {
+      res.json(update);
+    });
   });
 };

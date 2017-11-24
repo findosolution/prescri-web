@@ -24,7 +24,21 @@ var OrderAPI = {
     }, (err) => {
       return err;
     });
+  },
+  updateOrder: (updates) => {
+    var uid = updates.uid;
+    var id = updates.id;
+
+    var requestURL = `${ROOT_URL}/users/${uid}/orders/${id}`;
+    return axios.put(requestURL, updates).then((snapshot) => {
+      if(snapshot.status && snapshot.status === 200) {
+        return snapshot.data;
+      }
+    }, (err) => {
+      return err;
+    });
   }
 };
+
 
 module.exports = OrderAPI;

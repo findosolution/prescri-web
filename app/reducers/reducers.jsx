@@ -12,6 +12,19 @@ export var orderReducer = (state = [], action) => {
           ...action.order
         }
       ];
+    case 'UPDATE_ORDER':
+      return state.map((order) => {
+        console.log(order);
+        /*if(order.id === action.updates.id) {
+
+          return {
+            ...order,
+            ...action.updates
+          };
+        } else {
+          return order;
+        }*/
+      });
     case 'LOGOUT':
       return [];
     default:

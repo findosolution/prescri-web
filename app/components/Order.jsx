@@ -1,31 +1,51 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
+import * as actions from 'actions';
 import orderConstants from 'orderConstants'
 
 export class Order extends React.Component {
+  constructor(props) {
+    super(props);
+    this.changeStatus = this.changeStatus.bind(this);
+  }
+  changeStatus(status) {
+    var {order, user, dispatch} = this.props;
+
+    var updates = {
+      status,
+      orderby: order.orderby,
+      receivedby: order.receivedby,
+      id: order.id,
+      referenceOrder: order.referenceOrder
+    }
+    console.log(updates);
+    dispatch(actions.startUpdateOrder(updates));
+  }
   render() {
     var {order, user} = this.props;
     var showActions = () => {
       var readyBotton, pReadyBotton, revertBotton, removeBotton, pickedBotton;
-      var rejectBotton = <td><button type="button" className="button alert">Reject</button></td>;
+      var rejectBotton = <td><button type="button" onClick={() => this.changeStatus(orderConstants.status.REJECTED)} className="button alert">Reject</button></td>;
 
       if(user.isPharmacy && order.status === orderConstants.status.NEW) {
-        readyBotton = <td><button type="button" className="button success">Ready</button></td>;
+        readyBotton = <td><button type="button" className="button success" onClick={() => this.changeStatus(orderConstants.status.READY)}>Ready</button></td>;
       }
 
       if(user.isPharmacy && order.status === orderConstants.status.NEW) {
-        pReadyBotton = <td><button type="button" className="button primary">P_Ready</button></td>;
+        pReadyBotton = <td><button type="button" className="button primary" onClick={() => this.changeStatus(orderConstants.status.P_READY)}>P_Ready</button></td>;
       }
 
       if(order.status !== orderConstants.status.NEW) {
-        revertBotton = <td><button type="button" className="button warning">Revert</button></td>;
+        revertBotton = <td><button type="button" className="button warning" onClick={() => this.changeStatus(orderConstants.status.NEW)}>Revert</button></td>;
       }
 
       if(!user.isPharmacy && (order.status === orderConstants.status.READY || order.status === orderConstants.status.P_READY)) {
-        pickedBotton = <td><button type="button" className="button secondary">Picked</button></td>;
+        pickedBotton = <td><button type="button" className="button secondary" onClick={() => this.changeStatus(orderConstants.status.PICKED)}>Picked</button></td>;
       }
 
       if(order.status === orderConstants.status.REJECTED || order.status === orderConstants.status.PICKED) {
-        removeBotton = <td><button type="button" className="button secondary">Remove</button></td>;
+        removeBotton = <td><button type="button" className="button secondary" onClick={() => this.changeStatus(orderConstants.status.REMOVED)}>Remove</button></td>;
       }
 
       return [readyBotton, pReadyBotton, pickedBotton, rejectBotton, revertBotton, removeBotton];
@@ -41,4 +61,4 @@ export class Order extends React.Component {
   }
 }
 
-export default Order;
+export default connect()(Order);

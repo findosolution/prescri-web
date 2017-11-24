@@ -41,6 +41,28 @@ export var startAddOrder = (order) => {
   };
 };
 
+export var updateOrder = (update) => {
+  return {
+    type: 'UPDATE_ORDER',
+    update
+  };
+};
+
+export var startUpdateOrder = (updates) => {
+  return (dispatch, getState) => {
+    var update = {
+      ...updates,
+      uid: getState().user.uid
+    };
+    return OrderAPI.updateOrder(update).then((snapshot) => {
+      dispatch(updateOrder(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
+
+  };
+};
+
 export var setSearchText = (text) => {
   return {
     type: 'SET_SEARCH_TEXT',
