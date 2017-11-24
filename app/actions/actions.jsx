@@ -1,4 +1,4 @@
-import {firebase, googleProvider} from 'myFirebase';
+import { firebase, googleProvider } from 'myFirebase';
 import OrderAPI from 'OrderAPI';
 import UserAPI from 'UserAPI';
 
@@ -37,7 +37,6 @@ export var startAddOrder = (order) => {
     }, (err) => {
       console.log(err);
     });
-
   };
 };
 
@@ -78,7 +77,7 @@ export var toggleShowCompleted = () => {
 
 export var clearError = () => {
   return {
-    type : 'CLEAR_ERROR'
+    type: 'CLEAR_ERROR'
   }
 };
 
@@ -126,13 +125,13 @@ export var startLogin = (userObj) => {
 
     switch (userObj.method) {
       case 'USRPW':
-        return firebase.auth().signInWithEmailAndPassword(userObj.userId, userObj.userPw).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
+        return firebase.auth().signInWithEmailAndPassword(userObj.userId, userObj.userPw).catch(function (error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
 
-            console.log(errorMessage, errorCode);
-            // ...
+          console.log(errorMessage, errorCode);
+          // ...
         });
 
       case 'GOOGLE':
@@ -150,7 +149,7 @@ export var startLogin = (userObj) => {
         }, (error) => {
           var errorObj = {
             'action': 'signInWithPopup',
-            'errorCode' : error.code,
+            'errorCode': error.code,
             'errorMessage': error.message
           }
           dispatch(addError(errorObj));
@@ -158,16 +157,16 @@ export var startLogin = (userObj) => {
 
       case 'MOBILE':
         return firebase.auth().signInWithPhoneNumber(userObj.userId, userObj.recaptchaVerifier)
-            .then(function (confirmationResult) {
-              dispatch(confirmLogin(confirmationResult));
-            }).catch(function (error) {
-              var errorObj = {
-                'action': 'signInWithPhoneNumber',
-                'errorCode' : error.code,
-                'errorMessage': error.message
-              }
-              dispatch(addError(errorObj));
-            });
+          .then(function (confirmationResult) {
+            dispatch(confirmLogin(confirmationResult));
+          }).catch(function (error) {
+            var errorObj = {
+              'action': 'signInWithPhoneNumber',
+              'errorCode': error.code,
+              'errorMessage': error.message
+            }
+            dispatch(addError(errorObj));
+          });
 
       default:
         return userObj
@@ -191,7 +190,7 @@ export var logout = () => {
   };
 };
 
-export var passwordReset = (resetProps) =>{
+export var passwordReset = (resetProps) => {
   return {
     type: 'RESETPASSWORD',
     resetProps
@@ -203,22 +202,22 @@ export var startPwReset = (emailMobile) => {
   return (dispatch, getState) => {
     var resetProps = {};
     var isEmailSent = false;
-    return firebase.auth().sendPasswordResetEmail(emailMobile).then(function() {
+    return firebase.auth().sendPasswordResetEmail(emailMobile).then(function () {
       // Email sent.
       console.log('email was sent');
       isEmailSent = true;
 
       resetProps = {
-        status : isEmailSent,
-        email : emailMobile
+        status: isEmailSent,
+        email: emailMobile
       }
       dispatch(passwordReset(resetProps));
 
-    }).catch(function(error) {
+    }).catch(function (error) {
 
       var errorObj = {
         'action': 'sendPasswordResetEmail',
-        'errorCode' : error.code,
+        'errorCode': error.code,
         'errorMessage': error.message
       }
       dispatch(addError(errorObj));
@@ -228,7 +227,7 @@ export var startPwReset = (emailMobile) => {
 
 };
 
-export var addError = (errorObj) =>{
+export var addError = (errorObj) => {
   return {
     type: 'ERROR_OCCURED',
     errorObj
@@ -251,11 +250,11 @@ export var startSignUp = (reg_user) => {
         console.log(err);
       });
 
-    }).catch(function(error) {
+    }).catch(function (error) {
 
       var errorObj = {
         'action': 'createUserWithEmailAndPassword',
-        'errorCode' : error.code,
+        'errorCode': error.code,
         'errorMessage': error.message
       }
       dispatch(addError(errorObj));
@@ -271,11 +270,11 @@ export var startLogout = () => {
       dispatch(logout());
       console.log('Logout success');
 
-    }).catch(function(error) {
+    }).catch(function (error) {
 
       var errorObj = {
         'action': 'signOut',
-        'errorCode' : error.code,
+        'errorCode': error.code,
         'errorMessage': error.message
       }
       dispatch(addError(errorObj));
