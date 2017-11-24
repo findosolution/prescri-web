@@ -40,10 +40,10 @@ export var startAddOrder = (order) => {
   };
 };
 
-export var updateOrder = (update) => {
+export var updateOrder = (updates) => {
   return {
     type: 'UPDATE_ORDER',
-    update
+    updates
   };
 };
 

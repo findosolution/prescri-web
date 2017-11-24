@@ -19,7 +19,7 @@ export class Order extends React.Component {
       id: order.id,
       referenceOrder: order.referenceOrder
     }
-    console.log(updates);
+
     dispatch(actions.startUpdateOrder(updates));
   }
   render() {
@@ -36,7 +36,8 @@ export class Order extends React.Component {
         pReadyBotton = <td><button type="button" className="button primary" onClick={() => this.changeStatus(orderConstants.status.P_READY)}>P_Ready</button></td>;
       }
 
-      if(order.status !== orderConstants.status.NEW) {
+      if((user.isPharmacy && order.status !== orderConstants.status.NEW) ||
+        (!user.isPharmacy && order.status === orderConstants.status.REJECTED)) {
         revertBotton = <td><button type="button" className="button warning" onClick={() => this.changeStatus(orderConstants.status.NEW)}>Revert</button></td>;
       }
 
@@ -50,11 +51,15 @@ export class Order extends React.Component {
 
       return [readyBotton, pReadyBotton, pickedBotton, rejectBotton, revertBotton, removeBotton];
     }
+    var showStatus = () => {
+      return Object.keys(orderConstants.status).find(key => orderConstants.status[key] === order.status);
+    }
     return(
       <tr className="order-record">
         <td><a href="#">{order.id}</a></td>
         <td>{order.createdAt}</td>
         <td>{order.pharmacy}</td>
+        <td>{showStatus()}</td>
         {showActions()}
       </tr>
     );

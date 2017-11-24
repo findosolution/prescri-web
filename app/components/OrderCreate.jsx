@@ -29,7 +29,7 @@ export class OrderCreate extends React.Component {
     };
     
     var attachment = $('#exampleFileUploadi')[0].files[0];
-    
+
      // Create the file metadata
      var metadata = {
       contentType: 'image/jpg'
@@ -59,14 +59,14 @@ export class OrderCreate extends React.Component {
       var downloadURL = uploadTask.snapshot.downloadURL;
       console.log("downloadURL " + "\n" + downloadURL);
       tempOrder.prescripUrl = downloadURL;
-      
+
       dispatch(actions.startAddOrder(tempOrder)).then(() => {
         hashHistory.push('/orders');
       });
 
     });
-    
-    
+
+
   }
 
   handaleAttachment(e) {

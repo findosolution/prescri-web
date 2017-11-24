@@ -14,16 +14,14 @@ export var orderReducer = (state = [], action) => {
       ];
     case 'UPDATE_ORDER':
       return state.map((order) => {
-        console.log(order);
-        /*if(order.id === action.updates.id) {
-
+        if(order.id === action.updates.id) {
           return {
             ...order,
             ...action.updates
           };
         } else {
           return order;
-        }*/
+        }
       });
     case 'LOGOUT':
       return [];

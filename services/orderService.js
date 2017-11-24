@@ -66,7 +66,8 @@ exports.updateOrder = function(req, res) {
   var update = {
     status: updates.status,
     updatedAt: moment().unix(),
-    updateby: req.params.uid
+    updateby: req.params.uid,
+    id: orderId
   }
 
   var orderRef, referenceRef;

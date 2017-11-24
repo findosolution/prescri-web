@@ -2,7 +2,7 @@ module.exports = {
   filterOrdersByPharmacy: (orders, searchText, showCompleted) => {
     var filteredOrders = orders;
     filteredOrders = filteredOrders.filter((order) => {
-      return order.status !== 5 || showCompleted;
+      return order.status !== 6 || showCompleted;
     });
 
     filteredOrders = filteredOrders.filter((order) => {
