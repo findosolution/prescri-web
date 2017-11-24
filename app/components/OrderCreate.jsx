@@ -27,7 +27,7 @@ export class OrderCreate extends React.Component {
       pharmacy: this.refs.pharmacy.value,
       receivedby: 'geQRvcpzzbYzLr36U238K7FvqH03'
     };
-    
+
     var attachment = $('#exampleFileUploadi')[0].files[0];
 
      // Create the file metadata
@@ -114,9 +114,15 @@ export class OrderCreate extends React.Component {
                   </div>
                   <div className="row">
                     <div className="medium-2 columns"><label>Prescription</label></div>
-                    <div className="medium-10 columns">
+                    <div className="medium-3 columns">
                     <label htmlFor="exampleFileUploadi" className="button">Upload File</label>
-                    <input type="file" ref="prescription" id="exampleFileUploadi" className="show-for-sr"/>
+                    <input type="file" ref="prescription" id="exampleFileUploadi" className="show-for-sr" onChange={() => {
+                      var fileName = $('#exampleFileUploadi').val();
+                      $('#filename').html(fileName);
+                    }}/>
+                    </div>
+                    <div className="medium-7 columns">
+                      <p id="filename" className="text-justify"></p>
                     </div>
                   </div>
                   <div className="row">
