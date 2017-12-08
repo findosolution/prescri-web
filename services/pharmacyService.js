@@ -6,7 +6,7 @@ exports.addPharmacy = function(req, res) {
   pharmacy.createdAt = moment().unix();
   var location = req.params.location;
 
-  var pharmacyRef = myFirebase.firebaseRef.child(`${location}/pharmacies`);
+  var pharmacyRef = myFirebase.firebaseRef.child(`pharmacies/${location}`);
 
   return pharmacyRef.push(pharmacy).then((snapshot) => {
     pharmacy.id =  pharmacyRef.key;
@@ -19,7 +19,7 @@ exports.addPharmacy = function(req, res) {
 exports.getPharmacies = function(req, res) {
   var location = req.params.location;
 
-  var pharmacyRef = myFirebase.firebaseRef.child(`${location}/pharmacies`);
+  var pharmacyRef = myFirebase.firebaseRef.child(`pharmacies/${location}`);
 
   return pharmacyRef.once('value').then((snapshot) => {
     var pharmacies = snapshot.val() || {};

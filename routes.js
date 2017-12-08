@@ -30,9 +30,9 @@ router.route('/users/:uid').get(userService.getUser)
 router.route('/users/:uid/orders').get(orderService.getOrders);
 router.route('/users/:uid/orders/:id').put(orderService.updateOrder);
 
-router.route('/:location/pharmacies').post(pharmacyService.addPharmacy)
+router.route('/pharmacies/:location').post(pharmacyService.addPharmacy)
     .get(pharmacyService.getPharmacies);
-router.route('/:location/pharmacies/:id').get(pharmacyService.getPharmacy)
+router.route('/pharmacies/:location/:id').get(pharmacyService.getPharmacy)
     .put(pharmacyService.updatePharmacy)
     .delete(pharmacyService.deletePharmacy);
 
