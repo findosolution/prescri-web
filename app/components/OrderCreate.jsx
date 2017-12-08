@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import { firebase, googleProvider } from 'myFirebase';
+import Autocomplete from 'react-autocomplete';
 
 import * as actions from 'actions';
 
@@ -10,6 +11,9 @@ export class OrderCreate extends React.Component {
     super(props);
     this.onLogout = this.onLogout.bind(this);
     this.handaleAttachment = this.handaleAttachment.bind(this);
+    this.state = {
+  value: '',
+}
   }
   onLogout(e) {
     e.preventDefault();
@@ -65,8 +69,6 @@ export class OrderCreate extends React.Component {
       });
 
     });
-
-
   }
 
   handaleAttachment(e) {
@@ -74,6 +76,8 @@ export class OrderCreate extends React.Component {
   }
 
   render() {
+    var {locations} = this.props;
+    var state = { value: '' }
     var redirectToOrders = () => {
       hashHistory.push('/orders');
     };
@@ -101,6 +105,31 @@ export class OrderCreate extends React.Component {
                     <div className="medium-2 columns"><label>Location</label></div>
                     <div className="medium-10 columns">
                       <input type="text" ref="location" placeholder="Phamarcy location"/>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Location</label></div>
+                    <div className="medium-10 columns">
+                      <Autocomplete
+                        value={this.state.value}
+                        inputProps={{ id: 'states-autocomplete' }}
+                        wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+                        items={locations}
+                        getItemValue={(item) => item.name}
+                        onChange={(event, value) => this.setState({ value })}
+                        onSelect={value => this.setState({ value })}
+                        renderMenu={children => (
+                          <div className="menu">
+                            {children}
+                          </div>
+                        )}
+                        renderItem={(item, isHighlighted) => (
+                          <div
+                            className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                            key={item.abbr}
+                          >{item.name}</div>
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="row">
@@ -141,4 +170,8 @@ export class OrderCreate extends React.Component {
   }
 }
 
-export default connect()(OrderCreate);
+export default connect((state) => {
+  return {
+    locations: state.locations
+  }
+})(OrderCreate);

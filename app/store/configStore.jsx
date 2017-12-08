@@ -1,7 +1,8 @@
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
 
-import {orderReducer, searchTextReducer, showCompletedReducer, authReducer, unAuthReducer, errorReducer} from 'reducers';
+import {orderReducer, searchTextReducer, showCompletedReducer, authReducer,
+  unAuthReducer, errorReducer, locationReducer} from 'reducers';
 
 export var configure = (initialState = {}) => {
   var reducer = redux.combineReducers({
@@ -10,7 +11,8 @@ export var configure = (initialState = {}) => {
     showCompleted: showCompletedReducer,
     user: authReducer,
     unAuthProps:unAuthReducer,
-    errors : errorReducer
+    errors : errorReducer,
+    locations: locationReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

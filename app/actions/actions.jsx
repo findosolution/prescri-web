@@ -1,6 +1,7 @@
 import { firebase, googleProvider } from 'myFirebase';
 import OrderAPI from 'OrderAPI';
 import UserAPI from 'UserAPI';
+import LocationAPI from 'LocationAPI';
 
 export var loadOrders = (orders) => {
   return {
@@ -58,7 +59,23 @@ export var startUpdateOrder = (updates) => {
     }, (err) => {
       console.log(err);
     });
+  };
+};
 
+export var loadLocations = (locations) => {
+  return {
+    type: 'LOAD_LOCATIONS',
+    locations
+  };
+};
+
+export var startLoadLocations = () => {
+  return (dispatch, getState) => {
+    return LocationAPI.getLocations().then((snapshot) => {
+      dispatch(loadLocations(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
   };
 };
 

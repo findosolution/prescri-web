@@ -88,6 +88,18 @@ export var errorReducer = (state =[], action) => {
       return [];
     default:
       return state;
+  }
+};
 
+export var locationReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'LOAD_LOCATIONS':
+      console.log('LOAD_LOCATIONS',action.locations);
+      return [
+        ...state,
+        ...action.locations
+      ];
+    default:
+      return state;
   }
 };
