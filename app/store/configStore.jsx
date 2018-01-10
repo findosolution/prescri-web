@@ -2,7 +2,7 @@ import * as redux from 'redux';
 import thunk from 'redux-thunk';
 
 import {orderReducer, searchTextReducer, showCompletedReducer, authReducer,
-  unAuthReducer, errorReducer, locationReducer} from 'reducers';
+  unAuthReducer, errorReducer, locationReducer, pharmacyReducer} from 'reducers';
 
 export var configure = (initialState = {}) => {
   var reducer = redux.combineReducers({
@@ -12,7 +12,8 @@ export var configure = (initialState = {}) => {
     user: authReducer,
     unAuthProps:unAuthReducer,
     errors : errorReducer,
-    locations: locationReducer
+    locations: locationReducer,
+    pharmacies: pharmacyReducer
   });
 
   var store = redux.createStore(reducer, initialState, redux.compose(

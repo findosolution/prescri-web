@@ -99,6 +99,23 @@ export var locationReducer = (state = [], action) => {
         ...state,
         ...action.locations
       ];
+    case 'FILTER_LOCATIONS':
+    
+      return state.filter(loc => loc.name.toLowerCase().indexOf(action.location.toLowerCase()) > -1)
+    default:
+      return state;
+  }
+};
+
+
+export var pharmacyReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'LOAD_PHARMACIES':
+      return action.pharmacies
+      
+    case 'FILTER_PHARMACIES':
+    
+      return state.filter(pha => pha.name.toLowerCase().indexOf(action.pharmacy.toLowerCase()) > -1)
     default:
       return state;
   }

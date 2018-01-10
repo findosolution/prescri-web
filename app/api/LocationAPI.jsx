@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const ROOT_URL = 'http://localhost:3000/api/';
 
-var UserAPI = {
+var LocationAPI = {
 
   saveLocation: (location) => {
     var requestURL = `${ROOT_URL}locations`;
@@ -26,4 +26,4 @@ var UserAPI = {
   }
 };
 
-module.exports = UserAPI;
+module.exports = LocationAPI;

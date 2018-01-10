@@ -2,6 +2,7 @@ import { firebase, googleProvider } from 'myFirebase';
 import OrderAPI from 'OrderAPI';
 import UserAPI from 'UserAPI';
 import LocationAPI from 'LocationAPI';
+import PharmacyAPI from 'PharmacyAPI';
 
 export var loadOrders = (orders) => {
   return {
@@ -76,6 +77,37 @@ export var startLoadLocations = () => {
     }, (err) => {
       console.log(err);
     });
+  };
+};
+
+export var filterLocations = (location) => {
+  return {
+    type: 'FILTER_LOCATIONS',
+    location
+  };
+};
+
+export var loadPharmacies = (pharmacies) => {
+  return {
+    type: 'LOAD_PHARMACIES',
+    pharmacies
+  };
+};
+
+export var startLoadPharmacies = (location) => {
+  return (dispatch, getState) => {
+    return PharmacyAPI.getPharmacies(location).then((snapshot) => {
+      dispatch(loadPharmacies(snapshot));
+    }, (err) => {
+      console.log(err);
+    });
+  };
+};
+
+export var filterPharmacies = (pharmacy) => {
+  return {
+    type: 'FILTER_PHARMACIES',
+    pharmacy
   };
 };
 

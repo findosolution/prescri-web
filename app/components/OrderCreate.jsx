@@ -12,8 +12,9 @@ export class OrderCreate extends React.Component {
     this.onLogout = this.onLogout.bind(this);
     this.handaleAttachment = this.handaleAttachment.bind(this);
     this.state = {
-  value: '',
-}
+        value: '',
+        pharmacy: ''
+    }
   }
   onLogout(e) {
     e.preventDefault();
@@ -75,8 +76,35 @@ export class OrderCreate extends React.Component {
     console.log('this');
   }
 
+  filterLocations(location){
+    var {dispatch} = this.props;
+    
+    if(location){
+      dispatch(actions.filterLocations(location));      
+    }else{
+      dispatch(actions.startLoadLocations());  
+    }
+  }
+
+  loadPharmacies(location){
+    var {dispatch} = this.props;
+    if(location){
+      dispatch(actions.startLoadPharmacies(location));
+    }
+  }
+
+  filterPharmacies(pharmacy){
+    var {dispatch} = this.props;
+    
+    if(location){
+      dispatch(actions.filterPharmacies(pharmacy));      
+    }else{
+      dispatch(actions.startLoadPharmacies());  
+    }
+  }
+
   render() {
-    var {locations} = this.props;
+    var {locations, pharmacies} = this.props;
     var state = { value: '' }
     var redirectToOrders = () => {
       hashHistory.push('/orders');
@@ -112,17 +140,18 @@ export class OrderCreate extends React.Component {
                     <div className="medium-10 columns">
                       <Autocomplete
                         value={this.state.value}
-                        inputProps={{ id: 'states-autocomplete' }}
-                        wrapperStyle={{ position: 'relative', display: 'inline-block' }}
                         items={locations}
                         getItemValue={(item) => item.name}
-                        onChange={(event, value) => this.setState({ value })}
-                        onSelect={value => this.setState({ value })}
-                        renderMenu={children => (
-                          <div className="menu">
-                            {children}
-                          </div>
-                        )}
+                        onChange={(event, value) => {
+                          this.setState({ value })                          
+                          this.filterLocations(value)
+                        }}
+                        onSelect={value => {
+                          
+                          this.setState({ value })
+                          this.loadPharmacies(value);
+                        }}
+                        
                         renderItem={(item, isHighlighted) => (
                           <div
                             className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
@@ -139,6 +168,29 @@ export class OrderCreate extends React.Component {
                     </div>
                     <div className="medium-2 columns inner-route">
                       <a>view in map</a>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="medium-2 columns"><label>Phamarcy</label></div>
+                    <div className="medium-10 columns">
+                      <Autocomplete
+                        value={this.state.pharmacy}
+                        items={pharmacies}
+                        getItemValue={(item) => item.name}
+                        onChange={(event, value) => {
+                          this.setState({ pharmacy:value })                          
+                        }}
+                        onSelect={value => {
+                          this.setState({ pharmacy:value })
+                        }}
+                        
+                        renderItem={(item, isHighlighted) => (
+                          <div
+                            className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                            key={item.abbr}
+                          >{item.name}</div>
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="row">
@@ -172,6 +224,7 @@ export class OrderCreate extends React.Component {
 
 export default connect((state) => {
   return {
-    locations: state.locations
+    locations: state.locations,
+    pharmacies : state.pharmacies
   }
 })(OrderCreate);

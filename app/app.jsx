@@ -15,6 +15,7 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch(actions.doLogin(user.uid)).then(() => {
       store.dispatch(actions.startLoadLocations());
       store.dispatch(actions.startLoadOrders());
+      store.dispatch(actions.startLoadPharmacies('Malabe'))
       hashHistory.push('/orders');
     });
   } else {
