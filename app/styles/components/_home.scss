@@ -1,0 +1,63 @@
+.login-separetor {
+    border-style: groove hidden hidden hidden;
+  }
+  
+  .img-button {
+    height: 20px !important;
+    width: 20px !important;
+    cursor: pointer;
+    background-color: transparent !important;
+  }
+  
+  .register-label {
+    font-family: -webkit-body;
+  }
+  
+  .social-label {
+    font-family: cursive;
+    color: $light-green;
+    text-decoration:underline;
+  }
+  
+  .top-bar{
+    height: 100px;
+    background-color: #3a3a3a;
+    border: 1px solid #2d2d2d
+  }
+  
+  .top-bar input{
+    height: 20px !important;
+    font-size: 12px !important;
+  
+  }
+  
+  .top-bar button{
+    height: 20px !important;
+    font-size: 12px !important;
+    background-color: #00A7ED;
+    padding: 0px !important;
+    color: white !important;
+  }
+  
+  .text-small{
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #b8c0cf !important;
+  }
+  
+  .login-box a{
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #b8c0cf !important;
+  }
+  
+  .no-left-padding{
+    padding-left: 0px !important;
+  }
+  
+  .add-prescription{
+    height: 30px;
+    margin-top: 20px;
+  }
