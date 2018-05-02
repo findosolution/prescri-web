@@ -9,6 +9,7 @@ import ResetPassword from 'ResetPassword';
 import ConfirmCode from 'ConfirmCode';
 import Login from 'Login';
 import SignUp from 'SignUp';
+import Home from 'Home';
 
 var requireLogin = (nextState, replace, next) => {
   if(!firebase.auth().currentUser) {
@@ -34,7 +35,7 @@ export default (
       <Route path="/reset-password" component={ResetPassword}/>
       <Route path="/confirm-code" component={ConfirmCode}/>
       <Route path="/signup" component={SignUp}/>
-      <IndexRoute component={Login} onEnter={redirectIfLogedIn}/>
+      <IndexRoute component={Home} onEnter={redirectIfLogedIn}/>
     </Route>
   </Router>
 );

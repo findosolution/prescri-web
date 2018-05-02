@@ -163,15 +163,17 @@ export class Home extends React.Component {
                 </div>
               </div>
               <div className="row text-small">
-                <div className="columns large-5 medium-2">
-                  <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
-                </div>
-                <div className="columns large-5 medium-2">
-                  <input type="password" ref="password" placeholder="Password" required/>
-                </div>
-                <div className="columns large-2 medium-2 no-left-padding">
-                  <button id='sign-in-button' className="button Primary expanded text-small">Sign in</button>
-                </div>
+                <form ref="form" id="login-form" data-abide noValidate onSubmit={this.handleSubmit}>
+                  <div className="columns large-5 medium-2">
+                    <input type="text" ref="userid" placeholder="Email or Mobile number (+94XXXXXXXXX)" required pattern="numberOremail" onChange={this.handleOnchange}/>
+                  </div>
+                  <div className="columns large-5 medium-2">
+                    <input type="password" ref="password" placeholder="Password" required/>
+                  </div>
+                  <div className="columns large-2 medium-2 no-left-padding">
+                    <button id='sign-in-button' className="button Primary expanded text-small">Sign in</button>
+                  </div>
+                </form>
               </div>
               <div className="row">
                 
